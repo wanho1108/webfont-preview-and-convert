@@ -1,7 +1,6 @@
 const fs = require('fs');
 const express = require('express');
 const multer = require('multer');
-const ejs = require('ejs');
 const app = express();
 const storage = multer.diskStorage({
   destination(req, file, callback) {
@@ -13,10 +12,15 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
+app.set('views', __dirname + '/view');
+app.set('view engine', 'ejs');
+// app.engine('html', ejs.renderFile);
+
 app.get('/', (req, res) => {
-  const data = fs.readFileSync('index.html', 'utf-8');
-  res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-  res.end(data);
+  // const data = fs.readFileSync('index.html', 'utf-8');
+  // res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+  // res.end(data);
+  res.render('index', {title: 'index.html'});
 });
 
 app.post('/upload', upload.array('file', 1), (req, res) => {
