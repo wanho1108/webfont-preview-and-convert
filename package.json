@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/wanho1108/webfont-preview-and-convert#readme",
   "dependencies": {
+    "ejs": "^3.0.1",
     "express": "^4.17.1",
     "fontkit": "^1.8.0",
     "multer": "^1.4.2"
