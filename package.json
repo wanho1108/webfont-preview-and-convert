@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js --exec babel-node"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,9 @@
   },
   "homepage": "https://github.com/wanho1108/webfont-preview-and-convert#readme",
   "dependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/node": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
     "autoprefixer": "^9.7.3",
     "body-parser": "^1.19.0",
     "ejs": "^3.0.1",
@@ -25,6 +29,7 @@
     "fontkit": "^1.8.0",
     "multer": "^1.4.2",
     "node-sass-middleware": "^0.11.0",
+    "nodemon": "^2.0.2",
     "postcss-middleware": "^1.1.4"
   }
 }

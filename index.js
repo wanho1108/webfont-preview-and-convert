@@ -1,9 +1,10 @@
-const fs = require('fs');
-const path = require('path');
-const express = require('express');
-const bodyParser = require('body-parser');
-const multer = require('multer');
-const sassMiddleware = require('node-sass-middleware');
+import fs from 'fs';
+import path from 'path';
+import express from 'express';
+import bodyParser from 'body-parser';
+import multer from 'multer';
+import sassMiddleware from 'node-sass-middleware';
+
 const app = express();
 const storage = multer.diskStorage({
   destination(req, file, callback) {
@@ -15,28 +16,21 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
-// app.engine('html', ejs.renderFile);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use(sassMiddleware({
-  src: path.join(__dirname, 'public', 'scss'),
-  dest: path.join(__dirname, 'public', 'css'),
+  src: path.join(__dirname, 'public/scss'),
+  dest: path.join(__dirname, 'public/css'),
   debug: true,
   outputStyle: 'compressed',
   prefix: '/public/css',
 }));
-
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
-  // const data = fs.readFileSync('index.html', 'utf-8');
-  // res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-  // res.end(data);
   res.render('index', {title: 'index.html'});
 });
 
