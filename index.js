@@ -12,7 +12,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-app.set('views', __dirname + '/view');
+// app.set('views', __dirname + '/view');
 app.set('view engine', 'ejs');
 // app.engine('html', ejs.renderFile);
 
