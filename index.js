@@ -1,7 +1,9 @@
 const fs = require('fs');
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const multer = require('multer');
+const sassMiddleware = require('node-sass-middleware');
 const app = express();
 const storage = multer.diskStorage({
   destination(req, file, callback) {
@@ -13,12 +15,23 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// app.set('views', __dirname + '/view');
+
+app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 // app.engine('html', ejs.renderFile);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(sassMiddleware({
+  src: path.join(__dirname, 'public', 'scss'),
+  dest: path.join(__dirname, 'public', 'css'),
+  debug: true,
+  outputStyle: 'compressed',
+  prefix: '', // <link rel="stylesheets" href="{prefix}/style.css">
+}));
+
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
   // const data = fs.readFileSync('index.html', 'utf-8');
