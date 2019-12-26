@@ -39,17 +39,19 @@
 </head>
 <body>
   <%- include('./includes/header'); -%>
-  <form class="box" method="post" action="" enctype="multipart/form-data">
-    <div class="box__input">
-      <input class="box__file" type="file" name="file[]" id="file" data-multiple-caption="{count} files selected"
-        multiple />
-      <label for="file"><strong>Choose a file</strong><span class="box__dragndrop"> or drag it here</span>.</label>
-      <button class="box__button" type="submit">Upload</button>
-    </div>
-    <div class="box__uploading">Uploading&hellip;</div>
-    <div class="box__success">Done!</div>
-    <div class="box__error">Error! <span></span>.</div>
-  </form>
+  <div id="content">
+    <form class="box" method="post" action="" enctype="multipart/form-data">
+      <div class="box__input">
+        <input class="box__file" type="file" name="file[]" id="file" data-multiple-caption="{count} files selected"
+          multiple />
+        <label for="file"><strong>Choose a file</strong><span class="box__dragndrop"> or drag it here</span>.</label>
+        <button class="box__button" type="submit">Upload</button>
+      </div>
+      <div class="box__uploading">Uploading&hellip;</div>
+      <div class="box__success">Done!</div>
+      <div class="box__error">Error! <span></span>.</div>
+    </form>
+  </div>
   <script>
     const isSupportAdvancedUpload = (() => {
       const div = document.createElement('div');
@@ -107,6 +109,14 @@
         xhr.send(ajaxData);
         xhr.onreadystatechange = (e) => {
           console.log('onreadystatechange', xhr.readyState);
+          if (xhr.readyState === xhr.DONE) {
+            const division = document.createElement('div');
+            division.innerHTML = xhr.responseText;
+            const style = division.querySelector('style');
+            const template = division.querySelector('template');
+            document.head.appendChild(style);
+            document.querySelector('#content').innerHTML = template.innerHTML;
+          }
         };
         // xhr.onload = (e) => {
           // console.log(xhr.responseText);
