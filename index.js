@@ -28,7 +28,7 @@ app.use(sassMiddleware({
   dest: path.join(__dirname, 'public', 'css'),
   debug: true,
   outputStyle: 'compressed',
-  prefix: '', // <link rel="stylesheets" href="{prefix}/style.css">
+  prefix: '/public/css',
 }));
 
 app.use('/public', express.static(path.join(__dirname, 'public')));
