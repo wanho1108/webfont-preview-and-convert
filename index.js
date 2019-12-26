@@ -1,5 +1,6 @@
 const fs = require('fs');
 const express = require('express');
+const bodyParser = require('body-parser');
 const multer = require('multer');
 const app = express();
 const storage = multer.diskStorage({
@@ -16,6 +17,9 @@ const upload = multer({ storage });
 app.set('view engine', 'ejs');
 // app.engine('html', ejs.renderFile);
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.get('/', (req, res) => {
   // const data = fs.readFileSync('index.html', 'utf-8');
   // res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
@@ -23,7 +27,12 @@ app.get('/', (req, res) => {
   res.render('index', {title: 'index.html'});
 });
 
-app.post('/upload', upload.array('file', 1), (req, res) => {
+app.get('/file-drag-upload', (req, res) => {
+  res.render('file-drag-upload', { title: 'file-drag-upload.html' });
+});
+
+app.post('/upload', upload.array('file[]', 2), (req, res) => {
+  console.log('upload');
   try {
     const files = req.files;
     let originalName = '';
@@ -44,13 +53,19 @@ app.post('/upload', upload.array('file', 1), (req, res) => {
       mimeType = files[0].mimetype;
       size = files[0].size;
     }
-    console.log(`file inform : ${originalName}, ${fileName}, ${mimeType}, ${size}`);
-    res.writeHead('200', { 'Content-type': 'text/html; charset=utf8' });
-    res.write('<h3>upload success</h3>');
-    res.write(`<p>original name = ${originalName}, saved name = ${fileName}<p>`);
-    res.write(`<p>mime type : ${mimeType}<p>`);
-    res.write(`<p>file size : ${size}<p>`);
+    res.status(200);
+    res.json({
+      status: 200,
+      mesasge: 'ok'
+    });
     res.end();
+    // console.log(`file inform : ${originalName}, ${fileName}, ${mimeType}, ${size}`);
+    // res.writeHead('200', { 'Content-type': 'text/html; charset=utf8' });
+    // res.write('<h3>upload success</h3>');
+    // res.write(`<p>original name = ${originalName}, saved name = ${fileName}<p>`);
+    // res.write(`<p>mime type : ${mimeType}<p>`);
+    // res.write(`<p>file size : ${size}<p>`);
+    // res.end();
   } catch (err) {
     console.dir(err.stack);
     res.writeHead('200', { 'Content-type': 'text/html; charset=utf8' });
