@@ -18,4 +18,12 @@
   });
 
   getTestTemplateDOM();
+
+  document.documentElement.addEventListener('click', (e) => {
+    const target = e.target;
+    if (target.classList.contains('download')) {
+      const fileDownloadURL = `/download/${target.getAttribute('data-path') + target.getAttribute('data-name')}`;
+      location.href = fileDownloadURL;
+    }
+  });
 })();

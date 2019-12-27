@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <%- include('./includes/head'); -%>
-  <style type="text/css">
+  <style>
     .box {
       height: 500px;
       padding: 30px;
@@ -52,25 +52,21 @@
       <div class="box__error">Error! <span></span>.</div>
     </form>
   </div>
+  <%- include('./includes/script'); -%>
   <script>
     const isSupportAdvancedUpload = (() => {
       const div = document.createElement('div');
-
       return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) && 'FormData' in window && 'FileReader' in window;
-    })();
-
-    const $form = document.querySelector('.box');
+    })();   
 
     if (isSupportAdvancedUpload) {
-
+      const $form = document.querySelector('.box');
       $form.classList.add('has-support-advanced-upload');
-
       function showFiles(files) {
         const $input = $form.querySelector('input[type="file"]');
         const $label = $form.querySelector('label');
         $label.textContent = files.length > 1 ? $input.getAttribute('data-multiple-caption').replace('{count}', files.length) : files[0].name;
       }
-
       let droppedFiles = false;
       const dragInitEvent = (e) => {
         e.preventDefault();
@@ -88,34 +84,51 @@
       };
       const fileUpload = (e) => {
         if (e) e.preventDefault();
-
         if ($form.classList.contains('is-uploading')) return false;
-
         $form.classList.add('is-uploading');
         $form.classList.remove('is-uploading');
-
         const ajaxData = new FormData($form);
-
         if (droppedFiles) {
           for (const file of droppedFiles) {
             ajaxData.append($form.querySelector('input[type="file"]').getAttribute('name'), file);
           }
         }
-
         const xhr = new XMLHttpRequest();
         xhr.open('POST', '/upload');
         // xhr.setRequestHeader('Content-Type', 'multipart/form-data; boundary="Boundary"');
         // xhr.setRequestHeader('Accept', 'application/json');
         xhr.send(ajaxData);
         xhr.onreadystatechange = (e) => {
-          console.log('onreadystatechange', xhr.readyState);
+          // console.log('onreadystatechange', xhr.readyState);
           if (xhr.readyState === xhr.DONE) {
-            const division = document.createElement('div');
-            division.innerHTML = xhr.responseText;
-            const style = division.querySelector('style');
-            const template = division.querySelector('template');
-            document.head.appendChild(style);
-            document.querySelector('#content').innerHTML = template.innerHTML;
+            // console.log(xhr.responseText);
+            // document.documentElement.innerHTML = xhr.responseText;
+            // const styleTemplate = `
+            //   <style>
+            //     @font-face {
+            //       font-family: '{{fontName}}';
+            //       font-weight: 400;
+            //       src: url('{{fontPath}}') format('truetype');
+            //     }
+            //   </style>`;
+            // const detailTemplate = `
+            //   <div style="font-family: '{{fontName}}'">
+            //     <textarea>{{fontCharactersDecoding}}</textarea>
+            //     <p>{{loremIpsumEnglish}}</p>
+            //     <p>{{loremIpsumKorean}}</p>                
+            //   </div>`;
+            // const tabTemplate = `
+              
+            //   `;
+            // document.documentElement.innerHTML = xhr.responseText;
+            // const data = JSON.parse(xhr.responseText);
+            // console.log(xhr.responseText);
+            // const division = document.createElement('div');
+            // division.innerHTML = xhr.responseText;
+            // const style = division.querySelector('style');
+            // const template = division.querySelector('template');
+            // document.head.appendChild(style);
+            // document.querySelector('#content').innerHTML = template.innerHTML;
           }
         };
         // xhr.onload = (e) => {
@@ -148,10 +161,7 @@
         showFiles(droppedFiles);
         fileUpload();
       });
-
-
     }
   </script>
-  <%- include('./includes/script'); -%>
 </body>
 </html>

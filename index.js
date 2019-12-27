@@ -9,10 +9,17 @@ import fontkit from 'fontkit';
 const app = express();
 const storage = multer.diskStorage({
   destination(req, file, callback) {
-    callback(null, 'upload/');
+    console.log(file);
+    const path = `upload/${Date.now()}/`;
+    fs.exists(path, exist => {
+      if (!exist) {
+        return fs.mkdir(path, error => callback(error, path));
+      }
+      return callback(null, path);
+    });
   },
   filename(req, file, callback) {
-    callback(null, `${Date.now()}-${file.originalname}`);
+    callback(null, file.originalname);
   }
 });
 const upload = multer({ storage });
@@ -44,20 +51,26 @@ app.post('/template', (req, res) => {
   res.render('template', {fontname: "Malgun Gothic"});
 });
 
-app.post('/upload', upload.array('file[]', 2), (req, res) => {
+app.get('/download/:path/:filename', (req, res) => {
+  const filePath = path.join(__dirname, req.params.path, req.params.filename);
+  res.download(filePath);  
+});
+
+app.post('/upload', upload.array('file[]', 10), (req, res) => {
   try {
-    const files = req.files;
-    const font = fontkit.openSync(files[0].path);
-    const fontPath = files[0].path;
-    const fontName = files[0].filename;
-    const fontOriginalName = files[0].originalname;
-    const fontCharacters = font.characterSet;
-    const fontCharactersDecoding = fontCharacters.map((character) => {
-      return String.fromCharCode(character);
-    }).join('');
-    const fontLength = fontCharactersDecoding.length;
-    console.log(fontPath);
-    res.render('font-preview', {fontName, fontOriginalName, fontPath, fontCharactersDecoding, fontLength});
+    const fonts = [];
+    req.files.forEach((file) => {
+      const font = fontkit.openSync(file.path);
+      const name = file.filename;
+      const originalName = file.originalname;
+      const path = file.destination;
+      const characters = font.characterSet;
+      const charactersDecoding = characters.map(character => String.fromCharCode(character)).join('');
+      fonts.push({ name, originalName, path, characters, charactersDecoding });
+    });    
+    // res.render('font-preview', { title: 'font-preview', fonts });
+    // res.render('font-preview', {fontName, fontOriginalName, fontPath, fontCharactersDecoding, fontLength});
+    // res.render('font-preview', { title: 'font-preview', fontName, fontOriginalName, fontPath, fontCharactersDecoding, fontLength });
 
     // let originalName = '';
     // let fileName = '';
@@ -90,7 +103,7 @@ app.post('/upload', upload.array('file[]', 2), (req, res) => {
     // res.write(`<p>mime type : ${mimeType}<p>`);
     // res.write(`<p>file size : ${size}<p>`);
     // res.end();
-  } catch (err) {
+  } catch (err) {    
     console.dir(err.stack);
     res.writeHead('200', { 'Content-type': 'text/html; charset=utf8' });
     res.write('<h3>upload fail</h3>');

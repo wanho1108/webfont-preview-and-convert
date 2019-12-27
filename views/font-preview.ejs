@@ -1,18 +1,33 @@
-<style>
- @font-face {
-  font-family: '<%= fontName %>';
-  font-weight: 400;
-  src: url('<%= fontPath %>') format('truetype');
- }
-</style>
-
-<template>
-  <div style="font-family: '<%= fontName %>'">
-    <p><%= fontOriginalName %></p>
-
-    <strong>텍스트 목록 <%= fontLength %>자</strong>
-    <textarea><%= fontCharactersDecoding %></textarea>
-    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-    <p>근로자는 근로조건의 향상을 위하여 자주적인 단결권·단체교섭권 및 단체행동권을 가진다. 대한민국의 국민이 되는 요건은 법률로 정한다. 국민의 자유와 권리는 헌법에 열거되지 아니한 이유로 경시되지 아니한다. 대법원에 대법관을 둔다. 다만, 법률이 정하는 바에 의하여 대법관이 아닌 법관을 둘 수 있다. 헌법개정안이 제2항의 찬성을 얻은 때에는 헌법개정은 확정되며, 대통령은 즉시 이를 공포하여야 한다. 형사피고인은 유죄의 판결이 확정될 때까지는 무죄로 추정된다. 공무원인 근로자는 법률이 정하는 자에 한하여 단결권·단체교섭권 및 단체행동권을 가진다.</p>
-</div>
-</template>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <%- include('./includes/head'); -%>
+  <% fonts.forEach((font, index) => { %>
+    <style>
+      @font-face {
+        font-family: '<%= font.originalName %>';
+        font-weight: 400;
+        src: url('/<%= font.path + font.name %>') format('truetype');
+      }
+    </style>
+  <% }); %>
+</head>
+<body>
+  <%- include('./includes/header'); -%>
+  <div id="content">
+    <% fonts.forEach((font, index) => { %>
+      <a href="#" aria-selected="<%= index === 0 %>"><%= font.originalName %></a>    
+    <% }); %>
+    <% fonts.forEach((font, index) => { %>
+      <div style="font-family: '<%= font.originalName %>'">
+        <strong><%= font.originalName %> 폰트 예시</strong>
+        <textarea style="width: 100%;height: 300px"><%= font.charactersDecoding %></textarea>
+        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+        <p>근로자는 근로조건의 향상을 위하여 자주적인 단결권·단체교섭권 및 단체행동권을 가진다. 대한민국의 국민이 되는 요건은 법률로 정한다. 국민의 자유와 권리는 헌법에 열거되지 아니한 이유로 경시되지 아니한다. 대법원에 대법관을 둔다. 다만, 법률이 정하는 바에 의하여 대법관이 아닌 법관을 둘 수 있다. 헌법개정안이 제2항의 찬성을 얻은 때에는 헌법개정은 확정되며, 대통령은 즉시 이를 공포하여야 한다. 형사피고인은 유죄의 판결이 확정될 때까지는 무죄로 추정된다. 공무원인 근로자는 법률이 정하는 자에 한하여 단결권·단체교섭권 및 단체행동권을 가진다.</p>
+      </div>
+      <button type="button" data-path="<%= font.path %>" data-name="<%= font.name %>" class="download">다운로드</button>
+    <% }); %>
+  </div>
+  <%- include('./includes/script'); -%>
+</body>
+</html>
