@@ -6,6 +6,7 @@ import multer from 'multer';
 import sassMiddleware from 'node-sass-middleware';
 import fontkit from 'fontkit';
 import JSZip from 'node-zip';
+import randomstring from 'randomstring';
 
 const app = express();
 
@@ -55,10 +56,10 @@ app.get('/downloads/:filename(*)', (req, res) => {
 app.post('/upload', (req, res) => {
   try {
 
-    const date = Date.now();
+    const floderName = Date.now() + randomstring.generate();
     const storage = multer.diskStorage({
       destination(req, file, callback) {
-        const path = `upload/${date}/`;
+        const path = `upload/${floderName}/`;
         console.log(path);
         fs.exists(path, exist => {
           if (!exist) {
