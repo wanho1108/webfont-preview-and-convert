@@ -5,24 +5,9 @@ import bodyParser from 'body-parser';
 import multer from 'multer';
 import sassMiddleware from 'node-sass-middleware';
 import fontkit from 'fontkit';
+import JSZip from 'node-zip';
 
 const app = express();
-const storage = multer.diskStorage({
-  destination(req, file, callback) {
-    console.log(file);
-    const path = `upload/${Date.now()}/`;
-    fs.exists(path, exist => {
-      if (!exist) {
-        return fs.mkdir(path, error => callback(error, path));
-      }
-      return callback(null, path);
-    });
-  },
-  filename(req, file, callback) {
-    callback(null, file.originalname);
-  }
-});
-const upload = multer({ storage });
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
@@ -51,24 +36,61 @@ app.post('/template', (req, res) => {
   res.render('template', {fontname: "Malgun Gothic"});
 });
 
-app.get('/download/:path/:filename', (req, res) => {
-  const filePath = path.join(__dirname, req.params.path, req.params.filename);
+app.get('/download/:filename(*)', (req, res) => {
+  console.log(req.params.filename);
+  const filePath = path.join(__dirname, req.params.filename);
   res.download(filePath);  
 });
 
-app.post('/upload', upload.array('file[]', 10), (req, res) => {
+app.get('/downloads/:filename(*)', (req, res) => {
+  console.log(__dirname + '/upload/1577437150263/NanumSquareB.ttf');
+  const zip = new JSZip();
+  zip.file('NanumSquareB.ttf', fs.readFileSync(__dirname + '/upload/1577437150263/NanumSquareB.ttf'));
+  zip.file('NotoSansCJKkr-Regular.ttf', fs.readFileSync(__dirname + '/upload/1577437150263/NotoSansCJKkr-Regular.ttf'));
+  const data = zip.generate({ base64: false, compression: 'DEFLATE' });
+  fs.writeFileSync(__dirname + '/upload/1577437150263.zip', data, 'binary');
+  res.download(__dirname + '/upload/1577437150263.zip');
+});
+
+app.post('/upload', (req, res) => {
   try {
-    const fonts = [];
-    req.files.forEach((file) => {
-      const font = fontkit.openSync(file.path);
-      const name = file.filename;
-      const originalName = file.originalname;
-      const path = file.destination;
-      const characters = font.characterSet;
-      const charactersDecoding = characters.map(character => String.fromCharCode(character)).join('');
-      fonts.push({ name, originalName, path, characters, charactersDecoding });
-    });    
-    // res.render('font-preview', { title: 'font-preview', fonts });
+
+    const date = Date.now();
+    const storage = multer.diskStorage({
+      destination(req, file, callback) {
+        const path = `upload/${date}/`;
+        console.log(path);
+        fs.exists(path, exist => {
+          if (!exist) {
+            return fs.mkdir(path, error => callback(error, path));
+          }
+          return callback(null, path);
+        });
+      },
+      filename(req, file, callback) {
+        callback(null, file.originalname);
+      }
+    });
+    const upload = multer({ storage }).array('file[]', 10);
+    upload(req, res, (error) => {
+      if (error) {
+        res.res(500).end();
+      }
+      const fonts = [];
+      req.files.forEach((file) => {
+        const font = fontkit.openSync(file.path);
+        const name = file.filename;
+        const originalName = file.originalname;
+        const path = file.destination;
+        const characters = font.characterSet;
+        const charactersDecoding = characters.map(character => String.fromCharCode(character)).join('');
+        fonts.push({ name, originalName, path, characters, charactersDecoding });
+      });  
+      res.render('font-preview', { title: 'font-preview', fonts });
+    });
+
+  
+    
     // res.render('font-preview', {fontName, fontOriginalName, fontPath, fontCharactersDecoding, fontLength});
     // res.render('font-preview', { title: 'font-preview', fontName, fontOriginalName, fontPath, fontCharactersDecoding, fontLength });
 

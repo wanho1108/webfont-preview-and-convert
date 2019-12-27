@@ -29,6 +29,7 @@
     "fontkit": "^1.8.0",
     "multer": "^1.4.2",
     "node-sass-middleware": "^0.11.0",
+    "node-zip": "^1.1.1",
     "nodemon": "^2.0.2",
     "postcss-middleware": "^1.1.4"
   }
