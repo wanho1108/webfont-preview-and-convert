@@ -1,0 +1,71 @@
+@charset "utf-8";
+
+/*=
+  @group Components
+  @name Uploadbox
+  @author wanho1108 <wanho1108@gmail.com>
+  @since 2019-12-29
+*/
+
+.uploadbox {
+  height: inherit;
+  text-align: center;
+}
+
+.uploadbox__content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+  transition: opacity .4s;
+}
+.uploadbox__content--draging,
+.uploadbox__content--uploading {
+  opacity: 0;
+}
+
+.uploadbox__heading {
+  display: block;
+  margin-bottom: 85px;
+  font-size: 100px;
+  font-weight: 100;
+  color: #333;
+}
+
+.uploadbox__paragraph {
+  margin-top: 15px;
+  font-size: 20px;
+  font-weight: 300;
+}
+
+.uploadbox__button {
+  padding: 20px 40px;
+  border-radius: 5px;
+  margin-top: 85px;
+  background-color: #4c80f1;
+  font-size: 20px;
+  font-weight: 300;
+  color: #fff;
+}
+
+.uploadbox.is-draging {
+  .uploadbox__content--normal {
+    opacity: 0;
+    transition: opacity .2s;
+  }
+  .uploadbox__content--draging {
+    opacity: 1;
+  }
+}
+
+.uploadbox.is-uploading {
+  .uploadbox__content--normal,
+  .uploadbox__content--draging {
+    opacity: 0;
+    transition: opacity .2s;
+  }
+  .uploadbox__content--uploading {
+    opacity: 1;
+  }
+}
