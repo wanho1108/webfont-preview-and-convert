@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import multer from 'multer';
 import sassMiddleware from 'node-sass-middleware';
 import fontkit from 'fontkit';
@@ -17,6 +18,7 @@ app.set('view engine', 'ejs');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(sassMiddleware({
   src: path.join(__dirname, 'public/scss'),
   dest: path.join(__dirname, 'public/css'),
@@ -45,10 +47,10 @@ app.get('/otf2ttf', (req, res) => { // otf 올린 경우 ttf 로 변환
   // console.log(a);
   const fontmin = new Fontmin()
     .src(path)
-    // .use(Fontmin.glyph({
-    //   text: 'abcdefg',
-    //   hinting: false         // keep ttf hint info (fpgm, prep, cvt). default = true
-    // }))
+    .use(Fontmin.glyph({
+      text: 'abcd efg',
+      hinting: false         // keep ttf hint info (fpgm, prep, cvt). default = true
+    }))
     .use(Fontmin.ttf2svg())
     .use(Fontmin.ttf2woff2())
     .use(Fontmin.ttf2woff())
@@ -123,7 +125,7 @@ app.get('/test', (req, res) => {
   res.render('font-preview', { title: 'font-preview', fonts });
 });
 
-app.post('/upload', (req, res) => {
+app.post('/upload-bak', (req, res) => {
   try {
 
     const floderName = Date.now() + randomstring.generate();
@@ -155,7 +157,11 @@ app.post('/upload', (req, res) => {
         const originalName = file.originalname;
         const path = file.destination;
         const characters = font.characterSet;
-        const charactersDecoding = characters.map(character => String.fromCharCode(character)).join('');
+        const charactersDecoding = characters.map(character => {
+          if (character !== 65535) return String.fromCharCode(character);
+        }).join('');
+        console.log(characters);
+        console.log(charactersDecoding);
         fonts.push({ name, originalName, path, characters, charactersDecoding });
       });
       res.render('font-preview', { title: 'font-preview', fonts });
@@ -202,6 +208,95 @@ app.post('/upload', (req, res) => {
     res.writeHead('200', { 'Content-type': 'text/html; charset=utf8' });
     res.write('<h3>upload fail</h3>');
     res.end();
+  }
+});
+
+app.get('/cookie', (req, res) => {
+  const val = req.cookies;
+  console.log(val);
+  res.send(val);
+});
+
+app.get('/set', (req, res) => {
+  res.cookie('hasVisiteda', '1', {
+      maxAge: 3600000,
+      httpOnly: true
+  });
+  res.send('test');
+});
+
+app.get('/view', (req, res) => {
+  const files = JSON.parse(req.cookies.fonts);
+  const data = [];
+  console.log(files);
+  files.fonts.forEach((file) => {
+    const font = fontkit.openSync(files.path + file.name);
+    const name = file.name;
+    const originalName = file.originalName;
+    const path = files.path;
+    const characters = font.characterSet;
+    const charactersDecoding = characters.map(character => {
+      if (character !== 65535) return String.fromCharCode(character);
+    }).join('');
+    data.push({ name, originalName, path, characters, charactersDecoding });
+  });
+  console.log(data);
+  res.render('font-preview', { title: 'font-preview', fonts: data });
+});
+
+app.post('/upload', (req, res) => {
+  try {
+    const floderName = Date.now() + randomstring.generate();
+    const path = `upload/${floderName}/`;
+    const storage = multer.diskStorage({
+      destination(req, file, callback) {
+        fs.exists(path, exist => {
+          if (!exist) {
+            return fs.mkdir(path, error => callback(error, path));
+          }
+          return callback(null, path);
+        });
+      },
+      filename(req, file, callback) {
+        callback(null, file.originalname);
+      }
+    });
+    const upload = multer({ storage }).array('file[]', 10);
+    upload(req, res, (error) => {
+      if (error) {
+        res.res(500).end();
+      }
+      const fonts = {
+        path,
+        fonts: []
+      };
+      req.files.forEach((file) => {
+        fonts.fonts.push({
+          name: file.filename,
+          originalName: file.originalname
+        });
+      });
+      // req.files.forEach((file) => {
+      //   const font = fontkit.openSync(file.path);
+      //   const name = file.filename;
+      //   const originalName = file.originalname;
+      //   const path = file.destination;
+      //   const characters = font.characterSet;
+      //   const charactersDecoding = characters.map(character => {
+      //     if (character !== 65535) return String.fromCharCode(character);
+      //   }).join('');
+      //   fonts.push({ name, originalName, path, characters, charactersDecoding });
+      // });
+      const stringify = JSON.stringify(fonts);
+      res.cookie('fonts', stringify, {
+        maxAge: 3600000,
+        httpOnly: true
+      });
+      res.send(fonts);
+      // res.render('font-preview', { title: 'font-preview', fonts });
+    });
+  } catch (err) {
+    // error
   }
 });
 
