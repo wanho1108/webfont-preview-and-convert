@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'fs-extra';
 import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
@@ -10,6 +10,7 @@ import JSZip from 'node-zip';
 import randomstring from 'randomstring';
 import shellExec from 'shell-exec';
 import Fontmin from 'fontmin';
+import { loadavg } from 'os';
 
 const app = express();
 
@@ -81,9 +82,47 @@ app.get('/pip', (req, res) => { // pyftsubset로 폰트 변환
 
 });
 
-app.get('/download/:filename(*)', (req, res) => {
-  const filePath = path.join(__dirname, req.params.filename);
-  res.download(filePath);
+app.get('/download', (req, res) => {
+  const zip = new JSZip();
+  const fonts = JSON.parse(req.cookies.fonts);
+  const path = fonts.path + 'subset/';
+  const exists = fs.pathExistsSync(path);
+
+  console.log(exists);
+  if (!exists) {
+    fs.removeSync(path);
+  }
+
+  const dir = fs.readdirSync(path, 'utf-8');
+
+  dir.forEach(file => {
+    zip.file(file, fs.readFileSync(path + file));
+  });
+
+  const data = zip.generate({ base64: false, compression: 'DEFLATE' });
+
+  fs.writeFileSync(fonts.path + 'subset.zip', data, 'binary');
+  res.download(fonts.path + 'subset.zip');
+
+
+  // , (error, files) => {
+  //
+  //   console.log('readdir');
+  //   if (error) {
+  //     console.log('error');
+  //     res.status(500);
+  //     throw error;
+  //   }
+
+  //   console.log(files);
+
+  // });
+  // res.send('a');
+  // zip.file('NanumSquareB.ttf', fs.readFileSync(__dirname + '/upload/1577437150263/NanumSquareB.ttf'));
+  // zip.file('NotoSansCJKkr-Regular.ttf', fs.readFileSync(__dirname + '/upload/1577437150263/NotoSansCJKkr-Regular.ttf'));
+  // const data = zip.generate({ base64: false, compression: 'DEFLATE' });
+  // fs.writeFileSync(__dirname + '/upload/1577437150263.zip', data, 'binary');
+  // res.download(__dirname + '/upload/1577437150263.zip');
 });
 
 app.get('/downloads/:filename(*)', (req, res) => {
@@ -242,6 +281,67 @@ app.get('/view', (req, res) => {
   });
   console.log(data);
   res.render('font-preview', { title: 'font-preview', fonts: data });
+});
+
+app.post('/subset', (req, res) => {
+  // console.log(req.body);
+  const data = req.body;
+  const fonts = req.cookies.fonts;
+  const path = JSON.parse(fonts).path;
+  data.forEach(item => {
+    const filename = item.filename;
+    const characters = [...item.characters].join('');
+    // console.log(path + filename);
+    const fontmin = new Fontmin()
+      .src(path + filename)
+      .use(Fontmin.glyph({
+        text: characters,
+        hinting: false
+      }))
+      .use(Fontmin.ttf2svg())
+      .use(Fontmin.ttf2woff2())
+      .use(Fontmin.ttf2woff())
+      .use(Fontmin.ttf2eot())
+      .dest(path + 'subset');
+
+    fontmin.run(function (err, files) {
+      if (err) {
+          throw err;
+      }
+      console.log('succ');
+      setTimeout(() => {
+
+        res.send('a');
+      }, 3000);
+    });
+  });
+
+  // console.log(filename);
+  // console.log(req.body[0].characters);
+
+
+
+  // const path = 'upload/test.ttf';
+  // const a = otf2ttf(path, 'upload/otf2ttf/');
+  // console.log(a);
+  // const fontmin = new Fontmin()
+  //   .src(path)
+  //   .use(Fontmin.glyph({
+  //     text: 'abcd efg',
+  //     hinting: false         // keep ttf hint info (fpgm, prep, cvt). default = true
+  //   }))
+  //   .use(Fontmin.ttf2svg())
+  //   .use(Fontmin.ttf2woff2())
+  //   .use(Fontmin.ttf2woff())
+  //   .use(Fontmin.ttf2eot())
+  //   .dest('upload/test9/');
+  //   fontmin.run(function (err, files) {
+  //     if (err) {
+  //         throw err;
+  //     }
+  //     console.log('succ');
+  // });
+  // res.send('otf2ttf');
 });
 
 app.post('/upload', (req, res) => {

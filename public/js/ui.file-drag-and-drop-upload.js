@@ -35,36 +35,36 @@
     /*
      * Drag & Drop 이벤트
   ​   */
-    function dragEvent(e) {
+    function dragHandler(e) {
       e.preventDefault();
       e.stopPropagation();
     }
 
-    function dragEnterEvent(e) {
+    function dragEnterHandler(e) {
       e.preventDefault();
       e.stopPropagation();
       $uploadbox.classList.add('is-draging');
-      document.documentElement.addEventListener('mouseleave', dragLeaveEvent);
+      document.documentElement.addEventListener('mouseleave', dragLeaveHandler);
     }
 
-    function dragLeaveEvent(e) {
+    function dragLeaveHandler(e) {
       e.preventDefault();
       e.stopPropagation();
       $uploadbox.classList.remove('is-draging');
-      document.documentElement.removeEventListener('mouseleave', dragLeaveEvent);
+      document.documentElement.removeEventListener('mouseleave', dragLeaveHandler);
     }
 
-    function dragDropEvent(e) {
+    function dragDropHandler(e) {
       e.preventDefault();
       e.stopPropagation();
       $uploadbox.classList.remove('is-draging');
       fileUpload(e.dataTransfer.files);
     }
 
-    $uploadbox.addEventListener('drag', dragEvent);
-    $uploadbox.addEventListener('dragstart', dragEvent);
-    $uploadbox.addEventListener('dragover', dragEnterEvent);
-    $uploadbox.addEventListener('dragenter', dragEnterEvent);
-    $uploadbox.addEventListener('drop', dragDropEvent);
+    $uploadbox.addEventListener('drag', dragHandler);
+    $uploadbox.addEventListener('dragstart', dragHandler);
+    $uploadbox.addEventListener('dragover', dragEnterHandler);
+    $uploadbox.addEventListener('dragenter', dragEnterHandler);
+    $uploadbox.addEventListener('drop', dragDropHandler);
   }
 })();
