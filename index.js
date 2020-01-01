@@ -10,7 +10,6 @@ import JSZip from 'node-zip';
 import randomstring from 'randomstring';
 import shellExec from 'shell-exec';
 import Fontmin from 'fontmin';
-import { loadavg } from 'os';
 
 const app = express();
 
@@ -44,8 +43,6 @@ app.post('/template', (req, res) => {
 
 app.get('/otf2ttf', (req, res) => { // otf 올린 경우 ttf 로 변환
   const path = 'upload/test.ttf';
-  // const a = otf2ttf(path, 'upload/otf2ttf/');
-  // console.log(a);
   const fontmin = new Fontmin()
     .src(path)
     .use(Fontmin.glyph({
@@ -103,26 +100,6 @@ app.get('/download', (req, res) => {
 
   fs.writeFileSync(fonts.path + 'subset.zip', data, 'binary');
   res.download(fonts.path + 'subset.zip');
-
-
-  // , (error, files) => {
-  //
-  //   console.log('readdir');
-  //   if (error) {
-  //     console.log('error');
-  //     res.status(500);
-  //     throw error;
-  //   }
-
-  //   console.log(files);
-
-  // });
-  // res.send('a');
-  // zip.file('NanumSquareB.ttf', fs.readFileSync(__dirname + '/upload/1577437150263/NanumSquareB.ttf'));
-  // zip.file('NotoSansCJKkr-Regular.ttf', fs.readFileSync(__dirname + '/upload/1577437150263/NotoSansCJKkr-Regular.ttf'));
-  // const data = zip.generate({ base64: false, compression: 'DEFLATE' });
-  // fs.writeFileSync(__dirname + '/upload/1577437150263.zip', data, 'binary');
-  // res.download(__dirname + '/upload/1577437150263.zip');
 });
 
 app.get('/downloads/:filename(*)', (req, res) => {
@@ -315,33 +292,6 @@ app.post('/subset', (req, res) => {
       }, 3000);
     });
   });
-
-  // console.log(filename);
-  // console.log(req.body[0].characters);
-
-
-
-  // const path = 'upload/test.ttf';
-  // const a = otf2ttf(path, 'upload/otf2ttf/');
-  // console.log(a);
-  // const fontmin = new Fontmin()
-  //   .src(path)
-  //   .use(Fontmin.glyph({
-  //     text: 'abcd efg',
-  //     hinting: false         // keep ttf hint info (fpgm, prep, cvt). default = true
-  //   }))
-  //   .use(Fontmin.ttf2svg())
-  //   .use(Fontmin.ttf2woff2())
-  //   .use(Fontmin.ttf2woff())
-  //   .use(Fontmin.ttf2eot())
-  //   .dest('upload/test9/');
-  //   fontmin.run(function (err, files) {
-  //     if (err) {
-  //         throw err;
-  //     }
-  //     console.log('succ');
-  // });
-  // res.send('otf2ttf');
 });
 
 app.post('/upload', (req, res) => {
@@ -376,24 +326,12 @@ app.post('/upload', (req, res) => {
           originalName: file.originalname
         });
       });
-      // req.files.forEach((file) => {
-      //   const font = fontkit.openSync(file.path);
-      //   const name = file.filename;
-      //   const originalName = file.originalname;
-      //   const path = file.destination;
-      //   const characters = font.characterSet;
-      //   const charactersDecoding = characters.map(character => {
-      //     if (character !== 65535) return String.fromCharCode(character);
-      //   }).join('');
-      //   fonts.push({ name, originalName, path, characters, charactersDecoding });
-      // });
       const stringify = JSON.stringify(fonts);
       res.cookie('fonts', stringify, {
         maxAge: 3600000,
         httpOnly: true
       });
       res.send(fonts);
-      // res.render('font-preview', { title: 'font-preview', fonts });
     });
   } catch (err) {
     // error
