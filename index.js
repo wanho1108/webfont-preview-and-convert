@@ -10,6 +10,8 @@ import JSZip from 'node-zip';
 import randomstring from 'randomstring';
 import shellExec from 'shell-exec';
 import Fontmin from 'fontmin';
+import CFonts from 'cfonts';
+import figlet from 'figlet';
 
 const app = express();
 
@@ -39,6 +41,47 @@ app.get('/file-drag-upload', (req, res) => {
 
 app.post('/template', (req, res) => {
   res.render('template', {fontname: "Malgun Gothic"});
+});
+
+app.get('/lorem', (req, res) => {
+  res.render('lorem');
+});
+
+app.get('/3d', (req, res) => {
+  const options = {
+    font: '3d',              // define the font face
+    align: 'left',              // define text alignment
+    colors: ['system'],         // define all colors
+    background: 'transparent',  // define the background color, you can also use `backgroundColor` here as key
+    letterSpacing: 1,           // define letter spacing
+    lineHeight: 1,              // define the line height
+    space: false,                // define if the output text should have empty lines on top and on the bottom
+    maxLength: '0',             // define how many character can be on one line
+  };
+  // const prettyFont = CFonts.render('DRAG & DROP FILES HERE', options);
+  // res.render('3d', { prettyFont });
+
+  // const a = CFonts.render('DRAG & DROP', options).string;
+  // const b = CFonts.render('TTF FILES HERE', options).string;
+
+
+  const a = figlet.textSync('DRAG & DROP', 'Ghost');
+  const b = figlet.textSync('TTF FILES HERE', 'Ghost');
+  res.render('3d', { data: [a, b] });
+
+  // figlet.text('DRAG & DROP FILES HERE', {
+  //   font: 'Ghost',
+  //   horizontalLayout: 'default',
+  //   verticalLayout: 'default'
+  // }, function (err, data) {
+  //   if (err) {
+  //     console.log('Something went wrong...');
+  //     console.dir(err);
+  //     return;
+  //   }
+  //     console.log(data);
+  //     res.render('3d', { data });
+  // });
 });
 
 app.get('/otf2ttf', (req, res) => { // otf 올린 경우 ttf 로 변환
