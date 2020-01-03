@@ -11,7 +11,8 @@
   <link rel="stylesheet" type="text/css" href="/public/css/style.css">
   <style>
     body {
-      font-family: 'Inter', 'Spoqa Han Sans', sans-serif
+      font-family: 'Inter', 'Spoqa Han Sans', sans-serif;
+      cursor: none;
     }
 
     h1 {
@@ -63,6 +64,8 @@
       width: 100%;
       height: 100%;
       position: fixed;
+      top: 0;
+      left: 0;
       opacity: 1;
       -webkit-transition: opacity .5s cubic-bezier(1,.15,.25,1);
       transition: opacity .5s cubic-bezier(1,.15,.25,1);
@@ -80,18 +83,34 @@
 
     .cursor-dot {      
       display: block;
-      width: 8rem;
-      height: 8rem;
+      width: 20px;
+      height: 20px;
       border-radius: 4rem;
-      background: #ff2828;
+      background: #000;
       position: absolute;
       -webkit-transform-origin: center center;
       transform-origin: center center;
-      -webkit-transform: scale(.25);
-      transform: scale(.25);
+      /* -webkit-transform: scale(.25); */
+      /* transform: scale(.25); */
       will-change: transform;
       -webkit-transition: background-color 1.5s cubic-bezier(1,.15,.25,1)!important;
       transition: background-color 1.5s cubic-bezier(1,.15,.25,1)!important
+    }
+
+    .cursor-dot:nth-child(2) {
+      transform: scale(.8);
+    }
+
+    .cursor-dot:nth-child(3) {
+      transform: scale(.6)
+    }
+
+    .cursor-dot:nth-child(4) {
+      transform: scale(.4);
+    }
+
+    .cursor-dot:nth-child(5) {
+      transform: scale(.2);
     }
 
     .Test {
@@ -135,22 +154,31 @@
   <div class="global-cursor">
 
     <div class="cursor-wrapper">
-      <span class="cursor-dot" style="transform: matrix(0.25, 0, 0, 0.25, 1576, 350);"></span>
-      <span class="cursor-dot" style="transform: matrix(0.2, 0, 0, 0.2, 1576, 350);"></span>
-      <span class="cursor-dot" style="transform: matrix(0.15, 0, 0, 0.15, 1576, 350);"></span>
-        <span class="cursor-dot" style="transform: matrix(0.1, 0, 0, 0.1, 1576, 350);"></span>
-        <span class="cursor-dot" style="transform: matrix(0.05, 0, 0, 0.05, 1576, 350);"></span>
-      </div>
+      <span class="cursor-dot"></span>
+      <span class="cursor-dot"></span>
+      <span class="cursor-dot"></span>
+      <span class="cursor-dot"></span>
+      <span class="cursor-dot"></span>
+    </div>
   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenLite.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/plugins/CSSPlugin.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script> -->
+
   <script>
     window.addEventListener('mousemove', cursorHandler);
-    function sursorHandler() {
+
+    function cursorHandler(e) {
+      const clientPositionX = e.clientX;
+      const clientPositionY = e.clientY;
+      const baseCursorSize = 20;
       const cursorDots = document.querySelectorAll('.cursor-dot');
+      const dotsNumber = 5;
       cursorDots.forEach(function (t, s) {
-        TweenLite.to(t, (s + 1) / e.dotsNumber / 7.5, {
+        TweenLite.to(t, (s + 1) / dotsNumber / 7.5, {
           ease: Power1.easeOut,
-          x: e.clientPositions.x - e.baseCursorSize / 2,
-          y: e.clientPositions.y - e.baseCursorSize / 2
+          x: clientPositionX - baseCursorSize / 2,
+          y: clientPositionY - baseCursorSize / 2
         })
       });
     }
