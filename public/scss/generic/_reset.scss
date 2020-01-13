@@ -15,13 +15,14 @@ html {
   overflow-y: scroll;
   height: 100%;
   font-weight: 400;
-  font-family: 'Spoqa Han Sans', 'Source Sans Pro', 'Noto Sans KR', AppleSDGothicNeo, Roboto, HelveticaNeue, Helvetica, sans-serif;
+  font-family: Inter, 'Spoqa Han Sans', AppleSDGothicNeo, Roboto, HelveticaNeue, Helvetica, sans-serif;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: none;
   line-height: 1.2;
   word-break: break-all;
+  // cursor: none;
 }
 
 body {
@@ -30,9 +31,10 @@ body {
   color: #868e96;
 }
 
-#wrapper {
+.wrapper {
   position: relative;
-  min-height: 100%;
+  height: inherit;
+  background-color: #fff;
 }
 
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, form, fieldset, hr, p, input, textarea, select, button, th, td, blockquote, figure {
@@ -47,7 +49,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select, button, table {
 }
 
 a, button {
-  cursor: pointer;
+  // cursor: pointer;
   transition-property: background-color, border-color, color, opacity;
   transition-duration: .2s;
   transition-timing-function: ease-out;
@@ -105,7 +107,7 @@ input, textarea {
 button, input[type='button'], input[type='submit'], input[type='reset'], input[type='image'] {
   border: 0;
   background: none;
-  cursor: pointer;
+  // cursor: pointer;
 }
 
 input[type='number'] {
@@ -119,7 +121,7 @@ input[type='number']::-webkit-inner-spin-button {
 
 
 input[type='file']::-webkit-file-upload-button {
-  cursor: pointer;
+  // cursor: pointer;
 }
 
 ::-webkit-input-placeholder {

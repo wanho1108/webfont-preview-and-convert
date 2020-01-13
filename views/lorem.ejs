@@ -13,16 +13,19 @@
     body {
       font-family: 'Inter', 'Spoqa Han Sans', sans-serif;
       cursor: none;
+      /* cursor: default; */
     }
 
     h1 {
-      padding: 7% 0 0 0;
+      /* padding: 7% 0 0 0; */
       /* margin-top: -8%; */
-      margin-top: 80px;
+      /* margin-top: 80px; */
+      margin-top: -11%;
       font-size: 125px;
       font-weight: 800;
-      /* font-size: 22px; */
       color: #000;
+      line-height: 1.1;
+      /* font-size: 22px; */
     }
 
     strong {
@@ -70,7 +73,17 @@
       -webkit-transition: opacity .5s cubic-bezier(1,.15,.25,1);
       transition: opacity .5s cubic-bezier(1,.15,.25,1);
       z-index: 998;
-      pointer-events: none
+      pointer-events: none;
+      mix-blend-mode: difference;
+      backface-visibility: hidden;
+    }
+
+    .global-cursor.is-none {
+      mix-blend-mode: normal;
+    }
+
+    .global-cursor.is-none .cursor-dot {
+      background-color: #000;
     }
 
     .global-cursor .cursor-wrapper {
@@ -81,28 +94,26 @@
       pointer-events: none
     }
 
-    .cursor-dot {      
+    .cursor-dot {
       display: block;
-      width: 22px;
-      height: 22px;
+      width: 32px;
+      height: 32px;
       border-radius: 4rem;
-      background: #000;
+      background: #fff;
       position: absolute;
       -webkit-transform-origin: center center;
       transform-origin: center center;
-      /* -webkit-transform: scale(.25); */
-      /* transform: scale(.25); */
       transform: translate(-100%, -100%);
       will-change: transform;
-      -webkit-transition: background-color 1.5s cubic-bezier(1,.15,.25,1)!important;
-      transition: background-color 1.5s cubic-bezier(1,.15,.25,1)!important
+      /* -webkit-transition: background-color 1.5s cubic-bezier(1,.15,.25,1) !important; */
+      /* transition: background-color 1.5s cubic-bezier(1,.15,.25,1) !important */
     }
 
-    .cursor-dot:nth-child(2) {
+    .cursor-dot:nth-child(2) { /* 1 - (1 * .2) - .1 = .9 */
       transform: translate(-100%, -100%) scale(.8);
     }
 
-    .cursor-dot:nth-child(3) {
+    .cursor-dot:nth-child(3) { /* 1 - (1 * .3) - .2 = .8 */
       transform: translate(-100%, -100%) scale(.6)
     }
 
@@ -114,18 +125,21 @@
       transform: translate(-100%, -100%) scale(.2);
     }
 
+    /* maxLength: 5 */
+    /* (5 - 1)  */
+
     .Test {
       display: flex;
+      justify-content: center;
       height: 100%;
       padding-left: 8%;
-      /* align-items: center; */
-      /* justify-content: center; */
       flex-direction: column;
+      background-color: #fff;
     }
 
     img {
       position: absolute;
-      bottom: 8%;
+      bottom: 11%;
       right: 6%;
     }
 
@@ -140,11 +154,12 @@
 
 <body>
   <div class="Test">
-    <h1>Font lightening</h1>
+    <h1>Font<br>lightening</h1>
     <!-- <strong>Drag &amp; Drop Files Here</strong> -->
-    <p>드래그 & 드롭 또는 화면을 클릭하여 폰트를 업로드하세요.</p>
+    <p>드래그 &amp; 드롭 또는 화면을 클릭하여 폰트를 업로드하세요.</p>
     <p>불필요한 문자를 제거하여 경량화된 서브셋 폰트 파일로 내려받을 수 있습니다.</p>
-    <p>안타깝지만 TTF 파일만 지원합니다 ;(</p>
+    <p>안타깝지만 OTF 파일은 지원하지 않습니다 ;(</p>
+    <!-- <p>안타깝지만 TTF 파일만 지원합니다 ;(</p> -->
     <!-- <button type="button">Click<br>Browser files</button> -->
   </div>
   <div>
@@ -169,6 +184,10 @@
     window.addEventListener('mousemove', cursorHandler);
 
     function cursorHandler(e) {
+      document.querySelector('.global-cursor').classList.remove('is-none');
+      // if (e.target.nodeName === 'P') {
+        // document.querySelector('.global-cursor').classList.add('is-none');
+      // }
       const clientPositionX = e.clientX;
       const clientPositionY = e.clientY;
       const baseCursorSize = 20;

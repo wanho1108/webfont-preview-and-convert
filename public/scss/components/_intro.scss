@@ -1,0 +1,35 @@
+@charset "utf-8";
+
+/*=
+  @group Components
+  @name Intro
+  @author wanho1108 <wanho1108@gmail.com>
+  @since 2020-01-13
+*/
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: inherit;
+  padding-left: 8%;
+  background: url(/public/image/img-feather.svg) bottom 11% right 6% no-repeat;
+}
+
+.intro__heading {
+  margin-top: -11%;
+  font-size: 125px;
+  font-weight: 800;
+  color: #000;
+  line-height: 1.1;
+}
+
+.intro__paragraph {
+  margin-top: 80px;
+  font-size: 22px;
+  font-weight: 400;
+
+  + .intro__paragraph {
+    margin-top: 15px;
+  }
+}
