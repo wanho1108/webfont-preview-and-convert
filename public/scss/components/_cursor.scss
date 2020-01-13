@@ -13,9 +13,15 @@
   left: 0;
   width: 0;
   height: 0;
+  opacity: 0;
   pointer-events: none;
   mix-blend-mode: difference;
   backface-visibility: hidden;
+  transition: opacity .2s;
+
+  &.is-active {
+    opacity: 1;
+  }
 }
 
 .cursor__dot {
@@ -24,6 +30,7 @@
   width: 32px;
   height: 32px;
   border-radius: 100%;
+  background-color: #fff;
   transform-origin: 50%;
   will-change: transform;
 

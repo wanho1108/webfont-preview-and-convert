@@ -10,14 +10,19 @@
 .intro {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  // justify-content: center;
   height: inherit;
-  padding-left: 8%;
-  background: url(/public/image/img-feather.svg) bottom 11% right 6% no-repeat;
+  padding-left: 10%;
+  background: url(/public/image/img-feather.svg) right 10% bottom 20% no-repeat;
+  transition: opacity .2s;
+
+  &.is-draging {
+    opacity: .6;
+  }
 }
 
 .intro__heading {
-  margin-top: -11%;
+  margin-top: 13%;
   font-size: 125px;
   font-weight: 800;
   color: #000;
