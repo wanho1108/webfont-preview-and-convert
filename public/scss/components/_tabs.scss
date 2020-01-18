@@ -6,19 +6,3 @@
   @author wanho1108 <wanho1108@gmail.com>
   @since 2019-12-29
 */
-
-.tabs {
-
-}
-
-.tabs__navigation-button[aria-selected="true"] {
-  font-weight: 700;
-}
-
-.tabs__panel {
-  display: block;
-}
-
-.tabs__panel[hidden] {
-  display: none;
-}

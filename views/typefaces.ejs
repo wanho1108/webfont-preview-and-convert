@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <%- include('./includes/head'); -%>
+</head>
+<body>
+  <div class="wrapper">
+    <%- include('./includes/header'); -%>
+    <main id="content" class="content">
+      <h2 class="is-blind">본문</h2>
+      <div class="typefaces">
+        <h3 class="typefaces__heading">Typefaces</h3>
+        <div class="typefaces__option">
+          <div class="typefaces__option-line"></div>
+          <div class="typefaces__option-wrapper">
+            <button type="button" aria-selected="false" aria-controls="" class="typefaces__option-button">NotoSansCJKkr-Thin</button>
+            <button type="button" aria-selected="false" aria-controls="" class="typefaces__option-button">NotoSansCJKkr-Light</button>
+            <button type="button" aria-selected="true" aria-controls="" class="typefaces__option-button">NotoSansCJKkr-Regular</button>
+            <button type="button" aria-selected="false" aria-controls="" class="typefaces__option-button">NotoSansCJKkr-Medium</button>
+            <button type="button" aria-selected="false" aria-controls="" class="typefaces__option-button">NotoSansCJKkr-Bold</button>
+            <button type="button" aria-selected="false" aria-controls="" class="typefaces__option-button">NotoSansCJKkr-Black</button>
+          </div>
+        </div>
+        <h4 class="typefaces__heading2">Preview</h4>
+        <div>
+          폰트 사이즈: --, line-height: --, letter-spacing: --, 정렬 좌측, 중간, 우측
+        </div>
+        <p contenteditable="true" class="typefaces__preview" style="font-family: 'Noto Sans KR', sans-serif;">
+          abcdefghijklmnopqrstuvwxyz Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br><br>
+          abcdefghijklmnopqrstuvwxyz Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br><br>
+          근로자는 근로조건의 향상을 위하여 자주적인 단결권·단체교섭권 및 단체행동권을 가진다. 대한민국의 국민이 되는 요건은 법률로 정한다. 국민의 자유와 권리는 헌법에 열거되지 아니한 이유로 경시되지 아니한다. 대법원에 대법관을 둔다. 다만, 법률이 정하는 바에 의하여 대법관이 아닌 법관을 둘 수 있다. 헌법개정안이 제2항의 찬성을 얻은 때에는 헌법개정은 확정되며, 대통령은 즉시 이를 공포하여야 한다. 형사피고인은 유죄의 판결이 확정될 때까지는 무죄로 추정된다. 공무원인 근로자는 법률이 정하는 자에 한하여 단결권·단체교섭권 및 단체행동권을 가진다.<br><br>
+          근로자는 근로조건의 향상을 위하여 자주적인 단결권·단체교섭권 및 단체행동권을 가진다. 대한민국의 국민이 되는 요건은 법률로 정한다. 국민의 자유와 권리는 헌법에 열거되지 아니한 이유로 경시되지 아니한다. 대법원에 대법관을 둔다. 다만, 법률이 정하는 바에 의하여 대법관이 아닌 법관을 둘 수 있다. 헌법개정안이 제2항의 찬성을 얻은 때에는 헌법개정은 확정되며, 대통령은 즉시 이를 공포하여야 한다. 형사피고인은 유죄의 판결이 확정될 때까지는 무죄로 추정된다. 공무원인 근로자는 법률이 정하는 자에 한하여 단결권·단체교섭권 및 단체행동권을 가진다.
+        </p>
+        <h4 class="typefaces__heading2">Set Characters</h4>
+        <p>아래 텍스트에서 삭제만 진행해주세요. 추가는 불가능합니다.</p>
+        <p contenteditable="true" class="typefaces__text" style="font-family: 'Noto Sans KR', sans-serif;">!@#$%^&*()qwertyuiopasdfghjkl;'zxcvmn,./</p>
+        <div class="typefaces__button-region">
+          <button type="button" class="typefaces__button">DOWNLOAD</button>
+        </div>
+      </div>
+    </main>
+    <%- include('./includes/cursor'); -%>
+  </div>
+  <%- include('./includes/script'); -%>
+</body>
+</html>

@@ -1,0 +1,82 @@
+@charset "utf-8";
+
+/*=
+  @group Components
+  @name Typefaces
+  @author wanho1108 <wanho1108@gmail.com>
+  @since 2020-01-18
+*/
+
+.typefaces {
+  padding: 7% 10%;
+}
+
+.typefaces__heading {
+  font-size: 125px;
+  font-weight: 800;
+  color: #000;
+}
+
+.typefaces__heading2 {
+  margin-top: 70px;
+  margin-bottom: 35px;
+  font-size: 40px;
+  font-weight: 800;
+  color: #000;
+}
+
+.typefaces__option {
+  margin-top: 100px;
+  margin-right: -12.5%;
+  border-bottom: 1px solid #ccc;
+}
+
+.typefaces__option:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.typefaces__option-button {
+  float: left;
+  padding: 15px 5px;
+  font-weight: 600;
+
+  + .typefaces__option-button {
+    margin-left: 30px;
+  }
+
+  &[aria-selected="true"] {
+    color: #000;
+  }
+}
+
+.typefaces__preview {
+  box-sizing: border-box;
+  padding: 15px 5px;
+  font-size: 20px;
+  color: #222;
+  word-break: keep-all;
+  line-height: 1.6;
+}
+
+.typefaces__text {
+  width: 100%;
+  padding: 15px 5px;
+  box-sizing: border-box;
+  color: #222;
+  line-height: 1.6;
+}
+
+.typefaces__button-region {
+  margin-top: 100px;
+  text-align: center;
+}
+
+.typefaces__button {
+  padding: 27px 75px;
+  background-color: #000;
+  font-size: 20px;
+  font-weight: 500;
+  color: #fff;
+}
