@@ -10,10 +10,11 @@
 .intro {
   display: flex;
   flex-direction: column;
-  // justify-content: center;
-  height: inherit;
-  padding-left: 10%;
-  background: url(/public/image/img-feather.svg) right 10% bottom 20% no-repeat;
+  justify-content: center;
+  height: 100vh;
+  margin-left: 10%;
+  margin-right: 10%;
+  background: url(/public/image/img-feather.svg) right 0 bottom 20% no-repeat;
   transition: opacity .2s;
 
   &.is-draging {
@@ -22,19 +23,18 @@
 }
 
 .intro__heading {
-  margin-top: 13%;
-  font-size: 125px;
-  font-weight: 800;
-  color: #000;
-  line-height: 1.1;
+  margin-bottom: 80px;
 }
 
 .intro__paragraph {
-  margin-top: 80px;
   font-size: 22px;
   font-weight: 400;
 
   + .intro__paragraph {
     margin-top: 15px;
   }
+}
+
+.intro__button-region {
+  margin-top: 80px;
 }

@@ -13,7 +13,6 @@ article, aside, details, figcaption, figure, footer, header, main, menu, nav, se
 
 html {
   overflow-y: scroll;
-  height: 100%;
   font-weight: 400;
   font-family: Inter, 'Spoqa Han Sans', AppleSDGothicNeo, Roboto, HelveticaNeue, Helvetica, sans-serif;
   font-size: 16px;
@@ -25,14 +24,10 @@ html {
 }
 
 body {
-  position: relative;
-  height: 100%;
   color: #868e96;
 }
 
 .wrapper {
-  position: relative;
-  height: inherit;
   background-color: #fff;
 }
 

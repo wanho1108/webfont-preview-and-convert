@@ -1,0 +1,22 @@
+@charset "utf-8";
+
+/*=
+  @group Components
+  @name Button
+  @author wanho1108 <wanho1108@gmail.com>
+  @since 2020-01-29
+*/
+
+.button {
+  padding: 22px 48px;
+  border-radius: 70px;
+  background-color: #000;
+  font-size: 22px;
+  color: #fff;
+
+  &:hover,
+  &:focus,
+  &:active {
+    opacity: .8;
+  }
+}

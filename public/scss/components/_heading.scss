@@ -1,0 +1,23 @@
+@charset "utf-8";
+
+/*=
+  @group Components
+  @name Heading
+  @author wanho1108 <wanho1108@gmail.com>
+  @since 2020-01-29
+*/
+
+.heading {
+  font-size: 125px;
+  font-weight: 800;
+  color: #000;
+  line-height: 1.1;
+}
+
+.heading-2 {
+  margin-top: 100px;
+  margin-bottom: 25px;
+  font-size: 50px;
+  font-weight: 600;
+  color: #000;
+}
