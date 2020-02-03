@@ -19,12 +19,19 @@
           <button type="button" aria-selected="false" class="typefaces__option-button">NotoSansCJKkr-Black</button>
         </div> -->
         <h4 class="typeface__heading-2 heading-2">Characters</h4>
-        <div aria-hidden="true" class="typefaces__characters" style="font-family: 'Noto Sans KR', sans-serif;">!@#$%^&*()qwertyuiopasdfghjkl;'zxcvmn,./</div>
+        <div>자주 쓰이는 글자를 셀렉트나 버튼으로 !! 제공 난 탭 버튼으로 하고 싶다.</div>
+        <div aria-hidden="true" class="typefaces__characters" style="font-family: 'Noto Sans KR', sans-serif;"></div>
         <textarea class="typefaces__original-characters">!@#$%^&*()qwertyuiopasdfghjkl;'zxcvmn,./</textarea>
         <button type="button" class="typefaces__button button">Download fonts</button>
         <h4 class="typeface__heading-2 heading-2">Preview</h4>
         <div>
-          폰트 사이즈: --, line-height: --, letter-spacing: --, 정렬 좌측, 중간, 우측
+          <!-- 폰트 사이즈: --, line-height: --, letter-spacing: --, 정렬 좌측, 중간, 우측 -->
+          폰트 사이즈: <input type="range" value="0" min="0" max="100">
+          line-height: <input type="range" value="0" min="0" max="100">
+          letter-spacing: <input type="range" value="0" min="0" max="100">
+          <button type="button">정렬 좌측</button>
+          <button type="button">정렬 중간</button>
+          <button type="button">정렬 우측</button>
         </div>
         <p contenteditable="true" class="typefaces__preview" style="font-family: 'Noto Sans KR', sans-serif;">
           abcdefghijklmnopqrstuvwxyz Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br><br>
@@ -67,46 +74,132 @@
 
     // const rangeIndex = null;
 
+    // <Todo>
+    // 리팩토링 필요합니다.
+
+    // class Characters {
+    //   constructor(characters) {
+    //     this.characters = new Set(characters);
+    //   }
+
+    //   has(character) {
+    //     return this.characters.has(character);
+    //   }
+
+    //   add(character) {
+    //     if (this.has(character)) {
+    //       return false;
+    //     }
+    //     this.characters.add(character);
+    //     return true;
+    //   }
+
+    //   delete(character) {
+    //     return this.characters.delete(character);
+    //   }
+
+    //   get() {
+    //     return this.characters;
+    //   }
+    // }
+
+    // const characters = new Characters(document.querySelector('.typefaces__original-characters').value);
+
+    // const characters = new Set(document.querySelector('.typefaces__original-characters').value);
+
+    const characters = [...new Set(document.querySelector('.typefaces__original-characters').value)];
+    let selectionRange = null;
+
+    console.log(characters);
+
     document.querySelector('.typefaces__characters').addEventListener('click', (e) => {
       const { target, currentTarget } = e;
       const siblingsElement = currentTarget.children;
       const originTextElement = document.querySelector('.typefaces__original-characters');
 
       if (target.tagName.toLowerCase() === 'span') {
+        // <Todo>
+        // 커서의 위치가 엘리먼트 기준 좌측이면 좌측에 엘리먼트 삽입, 우측이면 우측에 엘리먼트 삽입
         const index = Array.prototype.indexOf.call(siblingsElement, target) + 1;
+        const newElement = document.createElement('span');
 
-        target.classList.add('is-selected');
+        newElement.classList.add('focus');
+        currentTarget.insertBefore(newElement, siblingsElement[index]);
         originTextElement.focus();
         originTextElement.setSelectionRange(index, index);
+        selectionRange = index;
       }
     });
 
-    document.querySelector('.typefaces__original-characters').addEventListener('keyup', (e) => {
-      const { target } = e;
-
-      updateTypefacesCharacters();
-    });
-
-    document.querySelector('.typefaces__original-characters').addEventListener('focusout', (e) => {
-      const { target } = e;
-      const characters = new Set(target.value);
-
-      target.value = [...characters].reduce((accumulator, character) => {
-        return accumulator + character;
-      }, '');
-      updateTypefacesCharacters();
-    });
-
-    function updateTypefacesCharacters() {
-      const originTextElement = document.querySelector('.typefaces__original-characters');
+    function add(key) {
       const typefacesCharactersElement = document.querySelector('.typefaces__characters');
-      const characters = new Set(originTextElement.value);
+      const childElement = typefacesCharactersElement.children;
+      const newElement = document.createElement('span');
+
+      newElement.textContent = key;
+      typefacesCharactersElement.insertBefore(newElement, childElement[selectionRange - 1]);
+
+    }
+
+    document.querySelector('.typefaces__original-characters').addEventListener('keyup', (e) => {
+      const { target, key } = e;
+
+      if (key.length !== 1) {
+        e.preventDefault();
+        console.log('무언가와 함꼐 눌렀군요.');
+        return;
+      }
+
+      if (characters.indexOf(key) === -1) {
+        characters.splice(selectionRange, 0, key);
+        selectionRange = target.selectionStart;
+        add(key);
+        // console.log(target.selectionStart, target.selectionEnd);
+        // console.log(target.value.substring(target.selectionStart, target.selectionEnd));
+        // add(key);
+        // getSelctionRange?
+      }
+      // const characters = newCharacters();
+
+      // renderCharacters();
+      // characters.add(e.key);
+      // render();
+    });
+
+    // document.querySelector('.typefaces__original-characters').addEventListener('focusout', (e) => {
+      // const { target } = e;
+      // const { value } = target;
+
+      // target.value = [...new Set(value)].reduce((accumulator, character) => accumulator + character, '');
+    // });
+
+
+    // document.querySelector('.typefaces__original-characters').addEventListener('focusout', (e) => {
+    //   const { target } = e;
+    //   const characters = new Set(target.value);
+
+    //   target.value = [...characters].reduce((accumulator, character) => {
+    //     return accumulator + character;
+    //   }, '');
+    //   updateTypefacesCharacters();
+    // });
+
+    // function updateTypefacesCharacters() {
+      // const originTextElement = document.querySelector('.typefaces__original-characters');
+      // const typefacesCharactersElement = document.querySelector('.typefaces__characters');
+      // const characters = new Set(originTextElement.value);
+
+      // typefacesCharactersElement.innerHTML = [...characters].reduce((accumulator, character) => {
+        // return accumulator + `<span>${character}</span>`;
+      // }, '');
+    // }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const typefacesCharactersElement = document.querySelector('.typefaces__characters');
 
       typefacesCharactersElement.innerHTML = [...characters].reduce((accumulator, character) => {
         return accumulator + `<span>${character}</span>`;
       }, '');
-    }
-
-    window.addEventListener('DOMContentLoaded', updateTypefacesCharacters);
+    });
   </script>
 </html>

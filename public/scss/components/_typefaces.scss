@@ -92,10 +92,17 @@
   margin-left: -1px;
   line-height: 58px;
   text-align: center;
+  vertical-align: top;
 
-  &.is-selected {
+  &.focus {
     position: relative;
-    border-right-color: red;
+    border-width: 2px;
+    border-color: #222;
+
+    &:after {
+      content: '_';
+      animation: focus 0.7s infinite;
+    }
   }
 }
 
