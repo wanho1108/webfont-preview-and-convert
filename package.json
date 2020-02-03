@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js --exec babel-node"
+    "start": "nodemon index.js --exec babel-node",
+    "bak": "nodemon index_copy.js --exec babel-node"
   },
   "repository": {
     "type": "git",
