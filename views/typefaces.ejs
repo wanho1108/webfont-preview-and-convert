@@ -19,7 +19,8 @@
           <button type="button" aria-selected="false" class="typefaces__option-button">NotoSansCJKkr-Black</button>
         </div> -->
         <h4 class="typeface__heading-2 heading-2">Characters</h4>
-        <p contenteditable="true" class="typefaces__characters" style="font-family: 'Noto Sans KR', sans-serif;">!@#$%^&*()qwertyuiopasdfghjkl;'zxcvmn,./</p>
+        <div aria-hidden="true" class="typefaces__characters" style="font-family: 'Noto Sans KR', sans-serif;">!@#$%^&*()qwertyuiopasdfghjkl;'zxcvmn,./</div>
+        <textarea class="typefaces__original-characters">!@#$%^&*()qwertyuiopasdfghjkl;'zxcvmn,./</textarea>
         <button type="button" class="typefaces__button button">Download fonts</button>
         <h4 class="typeface__heading-2 heading-2">Preview</h4>
         <div>
@@ -38,14 +39,14 @@
   </div>
   <%- include('./includes/script'); -%>
   <script>
-    document.querySelector('.typefaces__characters').addEventListener('focus', (e) => {
-      const { currentTarget } = e;
-      const characters = new Set(currentTarget.textContent);
+    // document.querySelector('.typefaces__characters').addEventListener('focus', (e) => {
+    //   const { currentTarget } = e;
+    //   const characters = new Set(currentTarget.textContent);
 
-      currentTarget.innerHTML = [...characters].reduce((accumulator, character) => {
-        return accumulator + character;
-      }, '');
-    });
+    //   currentTarget.innerHTML = [...characters].reduce((accumulator, character) => {
+    //     return accumulator + character;
+    //   }, '');
+    // });
 
     // document.querySelector('.typefaces__characters').addEventListener('keypress', (e) => {
     //   e.preventDefault();
@@ -53,13 +54,59 @@
     //   document.execCommand('insertHTML', false, `<div>${key}</div>`);
     // });
 
-    document.querySelector('.typefaces__characters').addEventListener('focusout', (e) => {
-      const { currentTarget, key } = e;
-      const characters = new Set(currentTarget.textContent);
+    // setSelectionRange
 
-      currentTarget.innerHTML = [...characters].reduce((accumulator, character) => {
-        return accumulator + `<span contenteditable="false">${character}</span>`;
-      }, '');
+    // document.querySelector('.typefaces__characters').addEventListener('focusout', (e) => {
+    //   const { currentTarget, key } = e;
+    //   const characters = new Set(currentTarget.textContent);
+
+    //   currentTarget.innerHTML = [...characters].reduce((accumulator, character) => {
+    //     return accumulator + `<span contenteditable="false">${character}</span>`;
+    //   }, '');
+    // });
+
+    // const rangeIndex = null;
+
+    document.querySelector('.typefaces__characters').addEventListener('click', (e) => {
+      const { target, currentTarget } = e;
+      const siblingsElement = currentTarget.children;
+      const originTextElement = document.querySelector('.typefaces__original-characters');
+
+      if (target.tagName.toLowerCase() === 'span') {
+        const index = Array.prototype.indexOf.call(siblingsElement, target) + 1;
+
+        target.classList.add('is-selected');
+        originTextElement.focus();
+        originTextElement.setSelectionRange(index, index);
+      }
     });
+
+    document.querySelector('.typefaces__original-characters').addEventListener('keyup', (e) => {
+      const { target } = e;
+
+      updateTypefacesCharacters();
+    });
+
+    document.querySelector('.typefaces__original-characters').addEventListener('focusout', (e) => {
+      const { target } = e;
+      const characters = new Set(target.value);
+
+      target.value = [...characters].reduce((accumulator, character) => {
+        return accumulator + character;
+      }, '');
+      updateTypefacesCharacters();
+    });
+
+    function updateTypefacesCharacters() {
+      const originTextElement = document.querySelector('.typefaces__original-characters');
+      const typefacesCharactersElement = document.querySelector('.typefaces__characters');
+      const characters = new Set(originTextElement.value);
+
+      typefacesCharactersElement.innerHTML = [...characters].reduce((accumulator, character) => {
+        return accumulator + `<span>${character}</span>`;
+      }, '');
+    }
+
+    window.addEventListener('DOMContentLoaded', updateTypefacesCharacters);
   </script>
 </html>

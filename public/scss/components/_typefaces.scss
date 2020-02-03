@@ -92,6 +92,11 @@
   margin-left: -1px;
   line-height: 58px;
   text-align: center;
+
+  &.is-selected {
+    position: relative;
+    border-right-color: red;
+  }
 }
 
 .typefaces__button {
