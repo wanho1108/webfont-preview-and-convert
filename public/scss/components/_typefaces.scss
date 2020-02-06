@@ -65,45 +65,8 @@
   box-sizing: border-box;
   font-size: 20px;
   color: #222;
-  // caret-color: transparent;
   line-height: 1.6;
   outline: none;
-
-  // &:focus {
-  //   &:after {
-  //     content: '_';
-  //     display: inline-block;
-  //     width: 5%;
-  //     height: 60px;
-  //     line-height: 58px;
-  //     text-align: center;
-  //     animation: focus 0.7s infinite;
-  //   }
-  // }
-}
-
-.typefaces__characters span {
-  display: inline-block;
-  width: 5%;
-  height: 60px;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  margin-top: -1px;
-  margin-left: -1px;
-  line-height: 58px;
-  text-align: center;
-  vertical-align: top;
-
-  &.focus {
-    position: relative;
-    border-width: 2px;
-    border-color: #222;
-
-    &:after {
-      content: '_';
-      animation: focus 0.7s infinite;
-    }
-  }
 }
 
 .typefaces__button {
