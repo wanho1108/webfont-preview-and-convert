@@ -81,6 +81,13 @@
       }
     });
 
+    document.querySelector('.typefaces__characters').addEventListener('focusout', (e) => {
+      const { target, target: { textContent: characters } } = e;
+      target.textContent = [...(new Set(characters))].reduce((accumulator, character) => {
+        return accumulator + character;
+      }, '');
+    });
+
     // const characters = {
     //   // length: undefined,
     //   selectionStart: undefined
