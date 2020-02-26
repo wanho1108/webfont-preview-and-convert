@@ -67,12 +67,39 @@
   color: #222;
   line-height: 1.6;
   outline: none;
+
+  span {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border: 1px solid #ccc;
+    margin-top: -1px;
+    margin-left: -1px;
+    line-height: 50px;
+    text-align: center;
+    vertical-align: top;
+  }
+}
+
+.switch {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  text-align: center;
+  button {
+    margin-right: 20px;
+    margin-left: 20px;
+  }
 }
 
 .typefaces__buttons {
   position: fixed;
   bottom: 10%;
   right: 10%;
+}
+
+.typefaces__button {
+  display: block;
+  margin-top: 30px;
 }
 
 @keyframes focus {
