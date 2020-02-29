@@ -6,3 +6,53 @@
   @author wanho1108 <wanho1108@gmail.com>
   @since 2019-12-29
 */
+
+.tabs {
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+.tabs__header {
+  position: relative;
+}
+
+.tabs__header-wrapper {
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
+
+.tabs__header-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 30px;
+  height: 3px;
+  background-color: #000;
+  transition: left .4s;
+}
+
+.tabs__button {
+  float: left;
+  margin-right: 30px;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 48px;
+
+  &[aria-selected="true"] {
+    color: #000;
+  }
+}
+
+.tabs__content {
+  margin-top: 50px;
+}
+
+.tabs__panel {
+
+  &[hidden] {
+    display: none;
+  }
+}
