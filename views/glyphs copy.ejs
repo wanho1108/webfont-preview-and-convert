@@ -37,45 +37,45 @@
   <%- include('./includes/script'); -%>
   <script>
 
-    const a = JSON.parse('<%= JSON.stringify(fonts[1].characters) %>');
-    const b = a.map(character => String.fromCharCode(character)).join('');
-    const c = new Set(b);
+    // const a = JSON.parse('<%= JSON.stringify(fonts[1].characters) %>');
+    // const b = a.map(character => String.fromCharCode(character)).join('');
+    // const c = new Set(b);
 
-    // document.querySelector('.typefaces__characters').textContent = b;
+    // // document.querySelector('.typefaces__characters').textContent = b;
 
-    function getNotChar(chars) {
-      return new Set(chars.filter((char) => c.has(char) === false));
-    }
+    // function getNotChar(chars) {
+    //   return new Set(chars.filter((char) => c.has(char) === false));
+    // }
 
-    document.querySelector('.typefaces__characters').addEventListener('keyup', (e) => {
-      const testArea = document.querySelector('.test-area');
-      const test = document.querySelector('.test');
-      const { target: { textContent: characters } } = e;
-      const no = getNotChar(characters.split(''));
+    // document.querySelector('.typefaces__characters').addEventListener('keyup', (e) => {
+    //   const testArea = document.querySelector('.test-area');
+    //   const test = document.querySelector('.test');
+    //   const { target: { textContent: characters } } = e;
+    //   const no = getNotChar(characters.split(''));
 
-      test.textContent = '';
+    //   test.textContent = '';
 
-      if (no.size) {
-        no.forEach((char) => {
-          testArea.style.display = 'block';
-          test.textContent = test.textContent + char;
-        });
-      } else {
-        testArea.style.display = 'none';
-      }
-    });
+    //   if (no.size) {
+    //     no.forEach((char) => {
+    //       testArea.style.display = 'block';
+    //       test.textContent = test.textContent + char;
+    //     });
+    //   } else {
+    //     testArea.style.display = 'none';
+    //   }
+    // });
 
-    document.querySelector('.typefaces__characters').addEventListener('focusout', (e) => {
-      const { target, target: { textContent: characters } } = e;
-      target.textContent = [...(new Set(characters))].reduce((accumulator, character) => {
-        return accumulator + character;
-      }, '');
-    });
+    // document.querySelector('.typefaces__characters').addEventListener('focusout', (e) => {
+    //   const { target, target: { textContent: characters } } = e;
+    //   target.textContent = [...(new Set(characters))].reduce((accumulator, character) => {
+    //     return accumulator + character;
+    //   }, '');
+    // });
 
-    // test
-    document.querySelector('.typefaces__characters').innerHTML = document.querySelector('.typefaces__characters').textContent.split('').reduce((accumulator, glyphs) => {
-        return `${accumulator}<span>${glyphs}</span>`;
-    }, '');
+    // // test
+    // document.querySelector('.typefaces__characters').innerHTML = document.querySelector('.typefaces__characters').textContent.split('').reduce((accumulator, glyphs) => {
+    //     return `${accumulator}<span>${glyphs}</span>`;
+    // }, '');
 
 
 

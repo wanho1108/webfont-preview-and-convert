@@ -1,12 +1,12 @@
 {
   'use strict';
 
-  const $region = document.querySelector('.intro');
-  const $form = $region.querySelector('form');
-  const $input = $region.querySelector('input[type="file"');
+  const $intro = document.querySelector('.intro');
+  const $input = $intro.querySelector('.intro__form-input-file');
+  const $button = $intro.querySelector('.intro__button');
 
   /*
-    * 고급 업로드 지원 여부
+   * 고급 업로드 지원 여부
 ​   */
   const isSupport = () => {
     const div = document.createElement('div');
@@ -16,14 +16,15 @@
   if (isSupport === false) throw new Error('advanced file upload를 지원하지 않습니다.');
 
   /*
-    * 파일 업로드
+   * 파일 업로드
 ​   */
-  const fileUpload = (files) => {
+  const fileUpload = (files = false) => {
+    const $form = $intro.querySelector('.intro__form');
     const formData = new FormData($form);
     const formAction = $form.action;
-    const extensionSupportArray = ['ttf', 'woff2', 'woff', 'svg', 'eot'];
+    const extensionSupportArray = ['otf', 'ttf', 'woff2', 'woff', 'svg', 'eot'];
 
-    $region.classList.add('is-uploading');
+    $intro.classList.add('is-uploading');
 
     if (files) {
       for (const file of files) {
@@ -39,49 +40,62 @@
     }
 
     axios.post(formAction, formData)
-      .then((res) => {
-        console.log(res);
+      .then(res => {
+        location.location = '/glyphs';
       })
-      .catch((error) => {
+      .catch(error => {
         throw new Error(error);
       });
   }
 
   /*
-    * 이벤트 핸들러
+   * 이벤트 핸들러
 ​   */
-  const dragHandler = (e) => {
+  const dragHandler = e => {
     e.preventDefault();
     e.stopPropagation();
-  }
+  };
 
-  const dragEnterHandler = (e) => {
+  const dragEnterHandler = e => {
     e.preventDefault();
     e.stopPropagation();
-    $region.classList.add('is-draging');
+    $intro.classList.add('is-draging');
     document.documentElement.addEventListener('mouseleave', dragLeaveHandler);
-  }
+  };
 
-  const dragLeaveHandler = (e) => {
+  const dragLeaveHandler = e => {
     e.preventDefault();
     e.stopPropagation();
-    $region.classList.remove('is-draging');
+    $intro.classList.remove('is-draging');
     document.documentElement.removeEventListener('mouseleave', dragLeaveHandler);
-  }
+  };
 
-  const dragDropHandler = (e) => {
+  const dragDropHandler = e => {
     e.preventDefault();
     e.stopPropagation();
-    $region.classList.remove('is-draging');
+    $intro.classList.remove('is-draging');
     fileUpload(e.dataTransfer.files);
-  }
+  };
+
+  const inputChangeHandler = e => {
+    if (e.target.files.length) {
+      fileUpload();
+    }
+  };
+
+  const buttonClickHandler = e => {
+    e.preventDefault();
+    $input.click();
+  };
 
   /*
    * 이벤트 바인드
 ​   */
-  $region.addEventListener('drag', dragHandler);
-  $region.addEventListener('dragstart', dragHandler);
-  $region.addEventListener('dragover', dragEnterHandler);
-  $region.addEventListener('dragenter', dragEnterHandler);
-  $region.addEventListener('drop', dragDropHandler);
+  $intro.addEventListener('drag', dragHandler);
+  $intro.addEventListener('dragstart', dragHandler);
+  $intro.addEventListener('dragover', dragEnterHandler);
+  $intro.addEventListener('dragenter', dragEnterHandler);
+  $intro.addEventListener('drop', dragDropHandler);
+  $input.addEventListener('change', inputChangeHandler);
+  $button.addEventListener('click', buttonClickHandler);
 }

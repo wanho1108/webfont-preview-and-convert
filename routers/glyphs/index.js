@@ -27,7 +27,7 @@ router.get('/', (req, res) => {
     fonts.push({ name, originalName, path, characters, charactersDecoding });
   });
 
-  res.render('typefaces', { title: '', fonts });
+  res.render('glyphs', { title: 'Glyphs' });
 });
 
 export default router;

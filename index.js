@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import sassMiddleware from 'node-sass-middleware';
 import api from './routers/api/';
-import typefaces from './routers/typefaces/';
+import glyphs from './routers/glyphs/';
 import index from './routers/';
 
 const app = express();
@@ -26,7 +26,7 @@ app.use(sassMiddleware({
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/upload', express.static(path.join(__dirname, 'upload')));
 app.use('/api', api);
-app.use('/typefaces', typefaces);
+app.use('/glyphs', glyphs);
 app.use('/', index);
 
 app.listen(port, () => {
