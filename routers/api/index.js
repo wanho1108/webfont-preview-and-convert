@@ -57,4 +57,9 @@ router.get('/download', (req, res) => {
   res.send('/download');
 });
 
+router.get('/glyphs/recommend', (req, res) => {
+  const glyphs = fs.readFileSync('public/data/glyphs.txt');
+  res.send(glyphs);
+});
+
 export default router;

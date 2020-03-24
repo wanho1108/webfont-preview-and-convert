@@ -1,14 +1,9 @@
 (function () {
   'use strict';
 
-  const $tabs = document.querySelectorAll('.tabs');
+  const $tabs = document.querySelector('.tabs');
 
-  $tabs.forEach(($element) => {
-    $element.addEventListener('click', tabsClickHandler);
-    $element.addEventListener('keyup', tabsKeyupHandler);
-  });
-
-  function tabsBarAnimation($tabs, index) {
+  function tabsBarAnimation(index) {
     const $tabsButtonActive = $tabs.querySelectorAll('[role="tab"]')[index];
     const $bar = $tabs.querySelector('.tabs__header-bar');
     const { offsetLeft: elementOffsetLeft, clientWidth: elementWidth } = $tabsButtonActive;
@@ -32,7 +27,7 @@
           $element.removeAttribute('tabindex');
           $panels[index].setAttribute('aria-hidden', false);
           $panels[index].removeAttribute('hidden');
-          tabsBarAnimation($tabs, index);
+          tabsBarAnimation(index);
           return;
         }
 
@@ -68,4 +63,9 @@
       }
     }
   }
+
+  $tabs.addEventListener('click', tabsClickHandler);
+  $tabs.addEventListener('keyup', tabsKeyupHandler);
+
+  tabsBarAnimation(0);
 })();

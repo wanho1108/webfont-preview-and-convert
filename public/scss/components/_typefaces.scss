@@ -29,17 +29,17 @@
   line-height: 1.6;
   outline: none;
 
-  span {
-    display: inline-block;
-    width: 50px;
-    height: 50px;
-    border: 1px solid #ccc;
-    margin-top: -1px;
-    margin-left: -1px;
-    line-height: 50px;
-    text-align: center;
-    vertical-align: top;
+  &--grid {
+    display: grid;
+    grid-template-columns: repeat(20, 1fr);
+    grid-gap: 1px;
   }
+}
+
+.typefaces__characters-item {
+  box-shadow: 0 0 0 1px #ccc;
+  line-height: 50px;
+  text-align: center;
 }
 
 .typefaces__buttons {
