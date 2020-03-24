@@ -41,7 +41,9 @@
 
     axios.post(formAction, formData)
       .then(res => {
-        location.href = '/glyphs';
+        $input.value = '';
+        $intro.classList.remove('is-uploading');
+        location.href ='/glyphs';
       })
       .catch(error => {
         throw new Error(error);
