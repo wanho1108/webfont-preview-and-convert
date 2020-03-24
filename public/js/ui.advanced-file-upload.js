@@ -41,7 +41,7 @@
 
     axios.post(formAction, formData)
       .then(res => {
-        location.location = '/glyphs';
+        location.href = '/glyphs';
       })
       .catch(error => {
         throw new Error(error);
