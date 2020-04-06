@@ -7,7 +7,7 @@
   <div class="wrapper">
     <%- include('./includes/header'); -%>
     <main id="content" class="content">
-      <h2 class="is-blind">본문</h2>
+      <h2 class="is-a11y-hidden">본문</h2>
       <section class="intro" aria-live="polite">
         <h3 class="intro__heading heading">Font<br>lightening</h3>
         <p class="intro__paragraph">드래그 &amp; 드롭 또는 버튼을 클릭하여 폰트를 업로드하세요.</p>
@@ -16,7 +16,7 @@
         <div class="intro__button-region">
           <button type="button" class="intro__button button">Upload font files</button>
         </div>
-        <form method="post" action="/api/upload" enctype="multipart/form-data" class="intro__form is-blind">
+        <form method="post" action="/api/upload" enctype="multipart/form-data" class="intro__form is-a11y-hidden">
           <input type="file" name="file[]" multiple accept=".otf, .ttf, .woff2, .woff, .svg, .eot" title="폰트 파일을 선택해주세요." class="intro__form-input-file">
         </form>
       </section>

@@ -1,0 +1,59 @@
+@charset "utf-8";
+
+/*=
+  @group Components
+  @name Checkbox
+  @author wanho1108 <wanho1108@gmail.com>
+  @since 2020-04-06
+*/
+
+.checkbox {
+  position: relative;
+}
+
+.checkbox__input {
+  overflow: hidden !important;
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  clip: rect(0 0 0 0) !important;
+
+  &:checked ~ .checkbox__text:after {
+    opacity: 1;
+  }
+}
+
+.checkbox__text {
+  position: relative;
+  padding-left: 30px;
+  font-size: 20px;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 0;
+    width: 18px;
+    height: 18px;
+    box-sizing: border-box;
+    border: 1px solid #aaa;
+    background-color: #fff;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 0;
+    width: 18px;
+    height: 18px;
+    background: #000 url(/public/image/icon-check-10x7-fff.png) 50% no-repeat;
+    opacity: 0;
+  }
+
+  &:hover:before {
+    border-color: #000;
+  }
+}

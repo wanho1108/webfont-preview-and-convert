@@ -1,0 +1,55 @@
+@charset "utf-8";
+
+/*=
+  @group Components
+  @name Font List
+  @author wanho1108 <wanho1108@gmail.com>
+  @since 2020-04-06
+*/
+
+.font-list {
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
+
+.font-list__item {
+  float: left;
+  padding: 5px 10px;
+  border-radius: 35px;
+  margin-right: 10px;
+  background-color: #000;
+}
+
+.font-list__name {
+  font-size: 16px;
+  color: #fff;
+}
+
+.font-list__button {
+  overflow: hidden;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  box-sizing: border-box;
+  border-radius: 100%;
+  text-indent: 100%;
+  border: 2px solid #fff;
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+  }
+
+  &--remove:after {
+    width: 12px;
+    height:2px;
+    background-color: #fff;
+    margin-top: -1px;
+    margin-left: -6px;
+  }
+}

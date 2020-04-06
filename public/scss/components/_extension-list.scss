@@ -1,0 +1,14 @@
+@charset "utf-8";
+
+/*=
+  @group Components
+  @name Extension List
+  @author wanho1108 <wanho1108@gmail.com>
+  @since 2020-04-06
+*/
+
+.extension-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}

@@ -7,7 +7,7 @@
   <div class="wrapper">
     <%- include('./includes/header'); -%>
     <main id="content" class="content">
-      <h2 class="is-blind">본문</h2>
+      <h2 class="is-a11y-hidden">본문</h2>
       <section class="typefaces">
         <h3 class="typefaces__heading heading">Glyphs</h3>
         <div class="tabs">
@@ -32,6 +32,59 @@
         </div>
       </section>
     </main>
+    <dialog aria-modal="true" aria-labelledby="" aria-hidden="true" class="dialog">
+      <div class="dialog__wrapper">
+        <h1 class="dialog__heading">Order Draft</h1>
+        <div class="dialog__content">
+          <ul class="font-list">
+            <li class="font-list__item">
+              <span class="font-list__name">Comic Neue</span>
+              <button class="font-list__button font-list__button--remove">Remove font</button>
+            </li>
+            <li class="font-list__item">
+              <span class="font-list__name">Comic Neue</span>
+              <button class="font-list__button font-list__button--remove">Remove font</button>
+            </li>
+            <li class="font-list__item font-list__item--remove">
+              <span class="font-list__name">Comic Neue</span>
+              <button class="font-list__button font-list__button--add">Remove font</button>
+            </li>
+          </ul>
+          <ul class="extension-list">
+            <li class="extension-list__item">
+              <label class="checkbox">
+                <input type="checkbox" name="extension" value="woff2" checked class="checkbox__input">
+                <span class="checkbox__text">woff2</span>
+              </label>
+            </li>
+            <li class="extension-list__item">
+              <label class="checkbox">
+                <input type="checkbox" name="extension" value="woff" checked class="checkbox__input">
+                <span class="checkbox__text">woff</span>
+              </label>
+            </li>
+            <li class="extension-list__item">
+              <label class="checkbox">
+                <input type="checkbox" name="extension" value="eot" checked class="checkbox__input">
+                <span class="checkbox__text">eot</span>
+              </label>
+            </li>
+            <li class="extension-list__item">
+              <label class="checkbox">
+                <input type="checkbox" name="extension" value="ttf" checked class="checkbox__input">
+                <span class="checkbox__text">ttf</span>
+              </label>
+            </li>
+            <li class="extension-list__item">
+              <label class="checkbox">
+                <input type="checkbox" name="extension" value="otf" checked class="checkbox__input">
+                <span class="checkbox__text">otf</span>
+              </label>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </dialog>
     <%- include('./includes/cursor'); -%>
   </div>
   <%- include('./includes/script'); -%>
