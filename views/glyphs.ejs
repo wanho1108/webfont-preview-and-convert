@@ -90,6 +90,7 @@
   <%- include('./includes/script'); -%>
   <script src="/public/js/helper/getParentElement.js"></script>
   <script src="/public/js/ui.tabs.js"></script>
+  <script src="/public/js/ui.loading.js"></script>
   <script>
     // Todo Toast 팝업 구현하기
     // Todo 원래 폰트에 없는 캐릭터는 입력 불가능하게 처리하기
@@ -123,7 +124,8 @@
     }
 
     document.querySelector('.typefaces__button').addEventListener('click', async () => {
-      // @todo 다운로드 코드 작성하기
+      showLoading();
+
       const characters = getCharacters(document.querySelector('.tabs__panel[aria-hidden="false"] .typefaces__characters'));
       const convertResponse = await axios.post('/api/convert', { characters });
 
@@ -134,7 +136,6 @@
           method: 'GET',
           responseType: 'blob'
         }).then(res => {
-          console.log(res);
           const url = window.URL.createObjectURL(new Blob([res.data]));
           const link = document.createElement('a');
 
@@ -145,6 +146,8 @@
 
           document.body.removeChild(link);
           window.URL.revokeObjectURL(url);
+
+          hideLoading();
         }).catch((error) => {
           console.log('Download Error', error);
         });
