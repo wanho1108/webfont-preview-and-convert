@@ -14,42 +14,42 @@
           <div role="tablist" class="tabs__header">
             <div class="tabs__header-wrapper">
               <button type="button" id="recommend-tab" role="tab" aria-selected="true" aria-controls="recommend" class="tabs__button">Recommend glyphs</button>
-              <button type="button" id="user-tab" role="tab" aria-selected="false" aria-controls="user" tabindex="-1" class="tabs__button">User glyphs</button>
+              <button type="button" id="custom-tab" role="tab" aria-selected="false" aria-controls="custom" tabindex="-1" class="tabs__button">Custom glyphs</button>
             </div>
             <div class="tabs__header-bar"></div>
           </div>
           <div class="tabs__content">
             <div id="recommend" role="tabpanel" aria-labelledby="recommend-tab" aria-hidden="false" class="tabs__panel">
-              <div class="typefaces__characters typefaces__characters--grid"> </div>
+              <div class="typefaces__characters typefaces__characters--grid"></div>
             </div>
-            <div id="user" role="tabpanel" aria-labelledby="user-tab" aria-hidden="true" hidden class="tabs__panel">
-              <div contenteditable="true" class="typefaces__characters typefaces__characters--edit"></div>
+            <div id="custom" role="tabpanel" aria-labelledby="custom-tab" aria-hidden="true" hidden class="tabs__panel">
+              <div contenteditable="true" data-placeholder="Please enter a characters." class="typefaces__characters typefaces__characters--edit"></div>
             </div>
           </div>
         </div>
         <div class="typefaces__buttons">
-          <button type="button" class="typefaces__button button">Download fonts</button>
+          <button type="button" class="typefaces__button button">Download Fonts</button>
         </div>
       </section>
     </main>
-    <dialog aria-modal="true" aria-labelledby="" aria-hidden="true" class="dialog">
+    <!--<dialog aria-modal="true" aria-labelledby="" aria-hidden="true" class="dialog">
       <div class="dialog__wrapper">
         <h1 class="dialog__heading">Order Draft</h1>
         <div class="dialog__content">
-          <ul class="font-list">
+          &lt;!&ndash;<ul class="font-list">
             <li class="font-list__item">
               <span class="font-list__name">Comic Neue</span>
-              <button class="font-list__button font-list__button--remove">Remove font</button>
+              <button class="font-list__button font-list__button&#45;&#45;remove">Remove font</button>
             </li>
             <li class="font-list__item">
               <span class="font-list__name">Comic Neue</span>
-              <button class="font-list__button font-list__button--remove">Remove font</button>
+              <button class="font-list__button font-list__button&#45;&#45;remove">Remove font</button>
             </li>
-            <li class="font-list__item font-list__item--remove">
+            <li class="font-list__item font-list__item&#45;&#45;remove">
               <span class="font-list__name">Comic Neue</span>
-              <button class="font-list__button font-list__button--add">Remove font</button>
+              <button class="font-list__button font-list__button&#45;&#45;add">Remove font</button>
             </li>
-          </ul>
+          </ul>&ndash;&gt;
           <ul class="extension-list">
             <li class="extension-list__item">
               <label class="checkbox">
@@ -84,16 +84,19 @@
           </ul>
         </div>
       </div>
-    </dialog>
+    </dialog>-->
     <%- include('./includes/cursor'); -%>
   </div>
   <%- include('./includes/script'); -%>
   <script src="/public/js/helper/getParentElement.js"></script>
   <script src="/public/js/ui.tabs.js"></script>
   <script>
+    // Todo Toast 팝업 구현하기
+    // Todo 원래 폰트에 없는 캐릭터는 입력 불가능하게 처리하기
+
     /*
      * Glyph 출력
-  ​   */
+     */
     async function getRecommendGlyphs() {
       const response = await axios.get('/api/glyphs/recommend');
       return response.data;
@@ -105,17 +108,50 @@
           return `${accumulator}<span class="typefaces__characters-item">${glyph}</span>`;
         }, '');
 
-      document.querySelector('.typefaces__characters--edit').textContent = glyphs;
       document.querySelector('.typefaces__characters--grid').innerHTML = $glyphsItems;
+      document.querySelector('.typefaces__characters--edit').textContent = glyphs;
     }
 
     printGlyphs();
 
     /*
      * 폰트 다운로드
-  ​   */
-    document.querySelector('.typefaces__button').addEventListener('click', e => {
-      e.preventDefault();
+     */
+    function getCharacters(element) {
+      const characters = element.textContent;
+      return [...new Set(characters)].join('');
+    }
+
+    document.querySelector('.typefaces__button').addEventListener('click', async () => {
+      // @todo 다운로드 코드 작성하기
+      const characters = getCharacters(document.querySelector('.tabs__panel[aria-hidden="false"] .typefaces__characters'));
+      const convertResponse = await axios.post('/api/convert', { characters });
+
+      if (convertResponse.status === 200) {
+        console.log('Convert 완료했습니다.');
+        axios({
+          url: '/api/download',
+          method: 'GET',
+          responseType: 'blob'
+        }).then(res => {
+          console.log(res);
+          const url = window.URL.createObjectURL(new Blob([res.data]));
+          const link = document.createElement('a');
+
+          link.href = url;
+          link.setAttribute('download', 'font-subset.zip');
+          document.body.appendChild(link);
+          link.click();
+
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(url);
+        }).catch((error) => {
+          console.log('Download Error', error);
+        });
+      } else {
+        console.log('Convert 실패했습니다.');
+      }
     });
   </script>
+</body>
 </html>

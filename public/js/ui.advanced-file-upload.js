@@ -7,7 +7,7 @@
 
   /*
    * 고급 업로드 지원 여부
-​   */
+   */
   const isSupport = () => {
     const div = document.createElement('div');
     return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) && 'FormData' in window && 'FileReader' in window;
@@ -17,12 +17,12 @@
 
   /*
    * 파일 업로드
-​   */
+   */
   const fileUpload = (files = false) => {
     const $form = $intro.querySelector('.intro__form');
     const formData = new FormData($form);
     const formAction = $form.action;
-    const extensionSupportArray = ['otf', 'ttf', 'woff2', 'woff', 'svg', 'eot'];
+    const extensionSupportArray = ['ttf'];
 
     $intro.classList.add('is-uploading');
 
@@ -52,7 +52,7 @@
 
   /*
    * 이벤트 핸들러
-​   */
+   */
   const dragHandler = e => {
     e.preventDefault();
     e.stopPropagation();
@@ -92,7 +92,7 @@
 
   /*
    * 이벤트 바인드
-​   */
+   */
   $intro.addEventListener('drag', dragHandler);
   $intro.addEventListener('dragstart', dragHandler);
   $intro.addEventListener('dragover', dragEnterHandler);

@@ -43,7 +43,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select, button, table {
 }
 
 a, button {
-  // cursor: pointer;
+  cursor: pointer;
   transition-property: background-color, border-color, color, opacity;
   transition-duration: .2s;
   transition-timing-function: ease-out;
@@ -101,7 +101,7 @@ input, textarea {
 button, input[type='button'], input[type='submit'], input[type='reset'], input[type='image'] {
   border: 0;
   background: none;
-  // cursor: pointer;
+  cursor: pointer;
 }
 
 input[type='number'] {
@@ -113,9 +113,8 @@ input[type='number']::-webkit-inner-spin-button {
   margin: 0;
 }
 
-
 input[type='file']::-webkit-file-upload-button {
-  // cursor: pointer;
+  cursor: pointer;
 }
 
 ::-webkit-input-placeholder {

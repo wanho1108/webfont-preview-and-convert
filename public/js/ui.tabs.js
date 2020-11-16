@@ -1,6 +1,10 @@
 (function () {
   'use strict';
 
+  /*
+    Todo getParentElement → Element.closest으로 개선하기
+    https://developer.mozilla.org/ko/docs/Web/API/Element/closest
+  */
   const $tabs = document.querySelector('.tabs');
 
   function tabsBarAnimation(index) {

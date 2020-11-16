@@ -2,6 +2,8 @@ import fs from 'fs-extra';
 import express from 'express';
 import multer from 'multer';
 import randomstring from 'randomstring';
+import Fontmin from 'fontmin';
+import JSZip from 'node-zip';
 
 const router = express.Router();
 
@@ -50,11 +52,44 @@ router.get('/cookie', (req, res) => {
 });
 
 router.post('/convert', (req, res) => {
-  res.send('/convert');
+  const { characters } = req.body;
+  const { path, files } = JSON.parse(req.cookies.font);
+  const fonts = files.map(file => path + file.originalname);
+  const fontmin = new Fontmin()
+    .src(fonts)
+    .use(Fontmin.glyph({
+      text: characters,
+      hinting: false
+    }))
+    .use(Fontmin.ttf2svg())
+    .use(Fontmin.ttf2woff2())
+    .use(Fontmin.ttf2woff())
+    .use(Fontmin.ttf2eot())
+    .dest(path + 'convert');
+
+  fontmin.run((error) => {
+    if (error) {
+      res.sendStatus(500);
+      throw  error;
+    }
+
+    res.sendStatus(200);
+  });
 });
 
 router.get('/download', (req, res) => {
-  res.send('/download');
+  const zip = new JSZip();
+  const { path } = JSON.parse(req.cookies.font);
+  const fonts = fs.readdirSync(path + 'convert');
+
+  fonts.forEach((font => {
+    zip.file(font, fs.readFileSync(`${path}/convert/${font}`));
+  }));
+
+  const generateZip = zip.generate({ base64: false, compression: 'DEFLATE' });
+
+  fs.writeFileSync(path + 'font-subset.zip', generateZip, 'binary');
+  res.download(path + 'font-subset.zip');
 });
 
 router.get('/glyphs/recommend', (req, res) => {

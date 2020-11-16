@@ -34,6 +34,15 @@
     grid-template-columns: repeat(20, 1fr);
     grid-gap: 1px;
   }
+
+  &--edit {
+    cursor: text;
+
+    &:empty:before {
+      content: attr(data-placeholder);
+      color: #868e96;
+    }
+  }
 }
 
 .typefaces__characters-item {
