@@ -25,6 +25,7 @@
     const extensionSupportArray = ['ttf'];
 
     $intro.classList.add('is-uploading');
+    showLoading();
 
     if (files) {
       for (const file of files) {
@@ -43,6 +44,7 @@
       .then(res => {
         $input.value = '';
         $intro.classList.remove('is-uploading');
+        hideLoading();
         location.href ='/glyphs';
       })
       .catch(error => {

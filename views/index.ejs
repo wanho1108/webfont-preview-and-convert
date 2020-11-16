@@ -12,7 +12,7 @@
         <h3 class="intro__heading heading">Font<br>lightening</h3>
         <p class="intro__paragraph">드래그 &amp; 드롭 또는 버튼을 클릭하여 폰트를 업로드하세요.</p>
         <p class="intro__paragraph">불필요한 문자를 제거하여 경량화된 서브셋 폰트 파일로 내려받을 수 있습니다.</p>
-        <p class="intro__paragraph">안타깝지만 OTF 파일은 지원하지 않습니다 ;(</p>
+        <p class="intro__paragraph">안타깝지만 .TTF 파일만 지원합니다. ;(</p>
         <div class="intro__button-region">
           <button type="button" class="intro__button button">Upload font files</button>
         </div>
@@ -24,6 +24,7 @@
     <%- include('./includes/cursor'); -%>
   </div>
   <%- include('./includes/script'); -%>
+  <script src="/public/js/ui.loading.js"></script>
   <script src="/public/js/ui.advanced-file-upload.js"></script>
 </body>
 </html>

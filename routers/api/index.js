@@ -25,7 +25,10 @@ router.post('/upload', (req, res) => {
   const upload = multer({ storage }).array('file[]', 10);
 
   upload(req, res, error => {
-    if (error) res.status(500).end();
+    if (error) {
+      console.log(error);
+      res.status(500).end();
+    }
 
     const data = { path, files: [] };
 
@@ -42,7 +45,8 @@ router.post('/upload', (req, res) => {
       maxAge: 10000 * 60 * 60, // 1시간
       httpOnly: true
     });
-    res.send(dataStringify);
+
+    res.sendStatus(200);
   });
 });
 
@@ -69,8 +73,8 @@ router.post('/convert', (req, res) => {
 
   fontmin.run((error) => {
     if (error) {
-      res.sendStatus(500);
-      throw  error;
+      console.log(error);
+      res.sendStatus(500).end();
     }
 
     res.sendStatus(200);

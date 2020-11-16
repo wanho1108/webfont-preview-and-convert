@@ -1,4 +1,4 @@
-(function () {
+{
   'use strict';
 
   /*
@@ -10,7 +10,7 @@
   function tabsBarAnimation(index) {
     const $tabsButtonActive = $tabs.querySelectorAll('[role="tab"]')[index];
     const $bar = $tabs.querySelector('.tabs__header-bar');
-    const { offsetLeft: elementOffsetLeft, clientWidth: elementWidth } = $tabsButtonActive;
+    const {offsetLeft: elementOffsetLeft, clientWidth: elementWidth} = $tabsButtonActive;
     const barWidth = $bar.clientWidth;
     const taretLeft = elementOffsetLeft + (elementWidth - barWidth) / 2;
 
@@ -72,4 +72,4 @@
   $tabs.addEventListener('keyup', tabsKeyupHandler);
 
   tabsBarAnimation(0);
-})();
+}

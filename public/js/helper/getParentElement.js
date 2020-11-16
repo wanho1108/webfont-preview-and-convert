@@ -1,4 +1,4 @@
-(function () {
+{
   'use strict';
 
   function getParentElement(currentElement, conditionFunction) {
@@ -14,4 +14,4 @@
 
   window.getParentElement = getParentElement;
 
-})();
+}
