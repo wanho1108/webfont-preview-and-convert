@@ -1,0 +1,41 @@
+@charset "utf-8";
+
+/*=
+  @group Components
+  @name Alert
+  @author wanho1108 <wanho1108@gmail.com>
+  @since 2020-11-16
+*/
+
+.alert {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  width: 600px;
+  box-sizing: border-box;
+  padding: 15px 15px 15px 60px;
+  border: 1px solid #ffccc7;
+  background-color: #fff2f0;;
+  margin-left: -300px;
+}
+
+.alert__icon {
+  position: absolute;
+  top: 15px;
+  left: 24px;
+  font-size: 24px;
+  color: #ff4d4f;
+}
+
+.alert__message {
+  font-size: 16px;
+  color: #000;
+  line-height: 1.5715;
+}
+
+.alert__button-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 14px;
+}

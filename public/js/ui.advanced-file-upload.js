@@ -33,6 +33,7 @@
         const extension = nameSplit[nameSplit.length - 1].toLowerCase();
 
         if (extensionSupportArray.indexOf(extension) === -1) {
+          hideLoading();
           throw new Error('지원하지 않는 폰트 파일 확장자입니다.');
         }
 
