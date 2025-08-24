@@ -1,4 +1,3 @@
-const fs = require('fs');
 const fontkit = require('fontkit');
 const src = './upload/NotoSansCJKkr-Regular.ttf';
 
