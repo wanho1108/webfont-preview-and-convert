@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js --exec babel-node"
+    "start": "nodemon index.js --exec babel-node",
+    "build": "rm -rf dist && mkdir -p dist && babel index.js -o dist/index.js && babel routers/ -d dist/routers --copy-files && cp -r views dist/"
   },
   "repository": {
     "type": "git",
@@ -19,9 +20,6 @@
   },
   "homepage": "https://github.com/wanho1108/webfont-preview-and-convert#readme",
   "dependencies": {
-    "@babel/core": "^7.7.7",
-    "@babel/node": "^7.7.7",
-    "@babel/preset-env": "^7.7.7",
     "autoprefixer": "^9.7.3",
     "axios": "^0.19.0",
     "body-parser": "^1.19.0",
@@ -41,5 +39,11 @@
     "randomstring": "^1.1.5",
     "sass": "^1.62.0",
     "shell-exec": "^1.0.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-2": "^6.24.1"
   }
 }

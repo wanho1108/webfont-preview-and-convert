@@ -8,8 +8,8 @@ import api from './routers/api/';
 import glyphs from './routers/glyphs/';
 import index from './routers/';
 
+const __dirname = path.dirname(__filename);
 const app = express();
-const port = 3000;
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
@@ -50,6 +50,4 @@ app.use('/api', api);
 app.use('/glyphs', glyphs);
 app.use('/', index);
 
-app.listen(port, () => {
-  console.log(`Express server currently running on port ${port}`);
-});
+module.exports = app;

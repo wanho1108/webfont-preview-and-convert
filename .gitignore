@@ -1,6 +1,8 @@
 .DS_Store
 .vscode
 .idea
+.vercel
 node_modules
 dist
+upload
 /public/css/style.css
