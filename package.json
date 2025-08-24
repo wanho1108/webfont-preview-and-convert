@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "22.x"
+  },
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js --exec babel-node",
-    "build": "rm -rf dist && mkdir -p dist && babel index.js -o dist/index.js && babel routers/ -d dist/routers --copy-files && cp -r views dist/"
+    "start": "nodemon server.js --exec babel-node",
+    "build": "echo \"Error: no build specified\""
   },
   "repository": {
     "type": "git",

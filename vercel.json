@@ -2,15 +2,30 @@
   "version": 2,
   "builds": [
     {
-      "src": "dist/index.js",
+      "src": "index.js",
       "use": "@vercel/node"
     },
-    { "src": "public/**", "use": "@vercel/static" },
-    { "src": "upload/**", "use": "@vercel/static" }
+    {
+      "src": "public/**/*",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "uploads/**/*",
+      "use": "@vercel/static"
+    }
   ],
   "routes": [
-    { "src": "/public/(.*)", "dest": "/public/$1" },
-    { "src": "/upload/(.*)", "dest": "/upload/$1" },
-    { "src": "/(.*)", "dest": "/dist/index.js" }
+    {
+      "src": "/public/(.*)",
+      "dest": "/public/$1"
+    },
+    {
+      "src": "/uploads/(.*)",
+      "dest": "/uploads/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.js"
+    }
   ]
 }

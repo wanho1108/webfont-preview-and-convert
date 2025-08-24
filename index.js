@@ -1,13 +1,15 @@
+import { fileURLToPath } from 'url';
 import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import * as sass from 'sass';
 import fs from 'fs';
-import api from './routers/api/';
-import glyphs from './routers/glyphs/';
-import index from './routers/';
+import api from './routers/api/index.js';
+import glyphs from './routers/glyphs/index.js';
+import index from './routers/index.js';
 
+const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
 
@@ -50,4 +52,4 @@ app.use('/api', api);
 app.use('/glyphs', glyphs);
 app.use('/', index);
 
-module.exports = app;
+export default app;

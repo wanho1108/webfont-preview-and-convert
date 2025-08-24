@@ -4,5 +4,6 @@
 .vercel
 node_modules
 dist
+api
 upload
 /public/css/style.css
